@@ -15,7 +15,7 @@ namespace Test
 		public void BeforeAllTests ()
 		{
 			ServiceContainer.Register<ISHA256Service> (() => new SHA256Service ());
-			ServiceContainer.Register<S3ClientCore> (() => new S3ClientCore ("AKIAJCSIBUKJK42X5XLA", "de2Rssuss5rQrWLPbTvyEdQa6QaIrfmnnLMV8wY0", new EUWest_1 ()));
+			ServiceContainer.Register<S3ClientCore> (() => new S3ClientCore ("", "", new EUWest_1 ()));
 			Client = ServiceContainer.Resolve<S3ClientCore> ();
 		}
 
