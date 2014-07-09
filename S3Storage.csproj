@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectTypeGuids>{786C830F-07A1-408B-BD7F-6EE04809D6DB};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
+    <ProjectGuid>{8CFB233F-84F6-45B0-89A5-9CE3EA4E05E2}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <RootNamespace>S3Storage</RootNamespace>
+    <AssemblyName>S3Storage</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <DefineConstants>DEBUG;</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>full</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+    <ConsolePause>false</ConsolePause>
+  </PropertyGroup>
+  <ItemGroup>
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="S3\Utils\StringUtilities.cs" />
+    <Compile Include="S3\S3ClientCore.cs" />
+    <Compile Include="S3\Response\GetBucketsResponse.cs" />
+    <Compile Include="S3\Request\GetBucketsRequest.cs" />
+    <Compile Include="S3\Request\BaseRequest.cs" />
+    <Compile Include="Service\ISHA256Service.cs" />
+    <Compile Include="Service\ServiceContainer.cs" />
+    <Compile Include="S3\IRegion.cs" />
+    <Compile Include="S3\Region.cs" />
+    <Compile Include="S3\Signer\BaseSigner.cs" />
+  </ItemGroup>
+  <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Service\" />
+    <Folder Include="S3\" />
+    <Folder Include="S3\Model\" />
+    <Folder Include="S3\Request\" />
+    <Folder Include="S3\Response\" />
+    <Folder Include="S3\Signer\" />
+  </ItemGroup>
+</Project>
