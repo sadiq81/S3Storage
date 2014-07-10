@@ -7,12 +7,15 @@ namespace S3Storage.Request
 {
 	public class BaseRequest
 	{
-		private const string SEPARATOR = ";";
+		private const string SEPARATOR_1 = ":";
+		private const string SEPARATOR_2 = ";";
 		private const  string NEW_LINE = "\n";
 
 		public Uri Uri { get; set; }
 
 		public IRegion Region { get; set; }
+
+		public string Range { get; set; }
 
 		public string HttpMethod { get; set; }
 
@@ -44,7 +47,7 @@ namespace S3Storage.Request
 		{
 			StringBuilder sb = new StringBuilder ();
 			foreach (KeyValuePair<string, string> kvp in GetHeaders ()) {
-				sb.Append (kvp.Key.ToLower + SEPARATOR);
+				sb.Append (kvp.Key.ToLower () + SEPARATOR_2);
 			}
 			sb.Remove (sb.Length - 1, 1);
 			return sb.ToString ();
@@ -54,7 +57,7 @@ namespace S3Storage.Request
 		{
 			StringBuilder sb = new StringBuilder ();
 			foreach (KeyValuePair<string, string> kvp in GetHeaders ()) {
-				sb.Append (kvp.Key.ToLower () + SEPARATOR + kvp.Value.Trim () + NEW_LINE);
+				sb.Append (kvp.Key.ToLower () + SEPARATOR_1 + kvp.Value.Trim () + NEW_LINE);
 			}
 			return sb.ToString ();
 		}
@@ -74,8 +77,8 @@ namespace S3Storage.Request
 			if (ContentMD5 != null) {
 				headers.Add ("Content-MD5", ContentMD5);
 			}
-			if (Date != null) {
-				headers.Add ("Date", Date);
+			if (XAmzDate == null && Date != null) {
+				headers.Add ("Date", Date.ToString ());
 			}
 			if (Expect != null) {
 				headers.Add ("Expect", Expect);
@@ -91,6 +94,9 @@ namespace S3Storage.Request
 			}
 			if (XAmzSecurityToken != null) {
 				headers.Add ("x-amz-security-token", XAmzSecurityToken);
+			}
+			if (Range != null) {
+				headers.Add ("Range", Range);
 			}
 			return headers;
 		}

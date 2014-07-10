@@ -7,29 +7,24 @@ namespace Test
 {
 	public class SHA256Service : ISHA256Service
 	{
-		public byte[] CreateHash (byte[] message, byte[] secret)
-		{
-			using (HMACSHA256 hmacsha256 = new HMACSHA256 (secret)) {
-				byte[] hashmessage = hmacsha256.ComputeHash (message);
-				return hashmessage;
-			}
-		}
+		public static HashAlgorithm CanonicalRequestHashAlgorithm = HashAlgorithm.Create ("SHA-256");
 
-		public string CreateHash (string message, string secret)
+		public byte[] CreateHash (byte[] key, byte[] buffer)
 		{
-			using (HMACSHA256 hmacsha256 = new HMACSHA256 ()) {
-				hmacsha256.Key = Encoding.UTF8.GetBytes (secret);
-				byte[] hashmessage = hmacsha256.ComputeHash (Encoding.UTF8.GetBytes (message));
-				return Convert.ToBase64String (hashmessage);
-			}
+			var kha = KeyedHashAlgorithm.Create ("HMACSHA256");
+			kha.Key = key;
+			var hash_1 = kha.ComputeHash (buffer);
+
+			HMACSHA256 hmacsha256 = new HMACSHA256 (key);
+			var hash_2 = hmacsha256.ComputeHash (buffer);
+			return hash_1;
+
 		}
 
 		public byte[] CreateHash (byte[] buffer)
 		{
-			using (HMACSHA256 hmacsha256 = new HMACSHA256 ()) {
-				byte[] hashmessage = hmacsha256.ComputeHash (buffer);
-				return hashmessage;
-			}
+			var hash_1 = CanonicalRequestHashAlgorithm.ComputeHash (buffer);
+			return hash_1;
 		}
 	}
 }

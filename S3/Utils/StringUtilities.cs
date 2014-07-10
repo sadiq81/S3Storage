@@ -22,6 +22,21 @@ namespace S3Storage.Utils
 			return encoded.ToString ();
 		}
 
+		public static string objectKeyNameToRfc3986 (this string input)
+		{
+			StringBuilder encoded = new StringBuilder (input.Length * 2);
+			foreach (char symbol in System.Text.Encoding.UTF8.GetBytes(input)) {
+				if (rfc3986validChars.IndexOf (symbol) == -1 && !'/'.Equals (symbol)) {
+					encoded.Append ("%").Append (string.Format (CultureInfo.InvariantCulture, "{0:X2}", (int)symbol));
+
+				} else {
+					encoded.Append (symbol);
+				}
+			}
+
+			return encoded.ToString ();
+		}
+
 		public static string ToHexString (this byte[] data, bool lowercase)
 		{
 			var sb = new StringBuilder ();

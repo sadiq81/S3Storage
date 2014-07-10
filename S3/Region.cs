@@ -13,7 +13,7 @@ namespace S3Storage
 
 		public   string LONG {
 			get {
-				return "s3-us-east-1.amazonaws.com";
+				return "s3.amazonaws.com";
 			}
 		}
 	}

@@ -2,27 +2,23 @@
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
   <MonoDevelop.Ide.Workbench ActiveDocument="S3/Signer/BaseSigner.cs">
     <Files>
-      <File FileName="S3/IRegion.cs" Line="8" Column="1" />
-      <File FileName="S3/S3ClientCore.cs" Line="35" Column="4" />
-      <File FileName="S3/Response/GetBucketsResponse.cs" Line="1" Column="1" />
-      <File FileName="S3/Utils/StringUtilities.cs" Line="10" Column="33" />
-      <File FileName="Service/ISHA256Service.cs" Line="9" Column="9" />
-      <File FileName="Service/ServiceContainer.cs" Line="1" Column="1" />
-      <File FileName="Test/SHA256Service.cs" Line="10" Column="16" />
-      <File FileName="Test/Test.cs" Line="25" Column="17" />
-      <File FileName="S3/Request/BaseRequest.cs" Line="9" Column="41" />
-      <File FileName="S3/Region.cs" Line="14" Column="10" />
-      <File FileName="S3/Request/GetBucketsRequest.cs" Line="6" Column="10" />
-      <File FileName="S3/Signer/BaseSigner.cs" Line="29" Column="2" />
+      <File FileName="S3/Request/BaseRequest.cs" Line="60" Column="48" />
+      <File FileName="S3/S3ClientCore.cs" Line="36" Column="43" />
+      <File FileName="S3/Request/GetBucketsRequest.cs" Line="1" Column="1" />
+      <File FileName="S3/Signer/BaseSigner.cs" Line="62" Column="1" />
+      <File FileName="S3/Utils/StringUtilities.cs" Line="6" Column="39" />
+      <File FileName="Test/Test.cs" Line="26" Column="18" />
+      <File FileName="Service/ISHA256Service.cs" Line="9" Column="3" />
+      <File FileName="Test/SHA256Service.cs" Line="22" Column="1" />
+      <File FileName="../../Downloads/AmazonS3SigV4_Samples_CSharp 2/AWSSignatureV4-S3-Sample/Signers/AWS4SignerBase.cs" Line="209" Column="18" />
+      <File FileName="../../Downloads/AmazonS3SigV4_Samples_CSharp 2/AWSSignatureV4-S3-Sample/GetS3ObjectSample.cs" Line="53" Column="37" />
+      <File FileName="../../Downloads/AmazonS3SigV4_Samples_CSharp 2/AWSSignatureV4-S3-Sample/Signers/AWS4SignerForAuthorizationHeader.cs" Line="96" Column="75" />
     </Files>
-    <Pads>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
-        <State expanded="True" selected="True" />
-      </Pad>
-    </Pads>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
-    <BreakpointStore />
+    <BreakpointStore>
+      <Breakpoint file="/Users/privat/Projects/S3Storage/S3/Signer/BaseSigner.cs" line="62" column="1" />
+    </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
 </Properties>
