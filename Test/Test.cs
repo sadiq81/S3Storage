@@ -16,14 +16,16 @@ namespace Test
 		public void BeforeAllTests ()
 		{
 			ServiceContainer.Register<ISHA256Service> (() => new SHA256Service ());
-			ServiceContainer.Register<S3ClientCore> (() => new S3ClientCore ("AKIAI7IGXQ4OBP74OQOQ", "bSwy3rZRvMJ2KvMciupU5fJ5ZYsYQ64nFn4vvcPy", new EUWest_1 ()));
+			ServiceContainer.Register<S3ClientCore> (() => new S3ClientCore (Key.AWSAccessKeyId, Key.AWSSecretKey, new EUWest_1 ()));
 			Client = ServiceContainer.Resolve<S3ClientCore> ();
 		}
 
 		[Test ()]
 		public void TestCase ()
 		{
-			Client.GetBuckets (new GetBucketsRequest ());
+			//Client.GetBuckets ();
+
+			Client.GetBucket ("halalguide");
 		}
 	}
 }

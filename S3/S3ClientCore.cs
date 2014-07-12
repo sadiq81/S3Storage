@@ -10,6 +10,7 @@ using S3Storage.Service;
 using System.Text;
 using S3Storage.Signer;
 using System.Net.Http.Headers;
+using S3Storage.Marshalling;
 
 namespace S3Storage.S3
 {
@@ -21,7 +22,7 @@ namespace S3Storage.S3
 
 		public IRegion Region { get; set; }
 
-		private HttpClient Client;
+		BaseSigner BaseSigner = new BaseSigner ();
 
 		public S3ClientCore (string aWSAccessKeyId, string aWSSecretKey, IRegion region)
 		{
@@ -30,33 +31,55 @@ namespace S3Storage.S3
 			this.Region = region;
 		}
 
-		public  Task<GetBucketsResponse> GetBuckets (GetBucketsRequest request)
+		public async Task<ListAllMyBucketsResult> GetBuckets ()
 		{
-			request.Uri = new Uri ("https://halalguide." + Region.LONG + "/MySampleFileChunked.txt");
-			request.Host = "halalguide." + Region.LONG;
-			request.Date = DateTime.UtcNow;
-			request.Region = Region;
-			request.XAmzContentSha256 = "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855";
-			request.XAmzDate = request.Date.ToString ("yyyyMMddTHHmmssZ");
+			GetBucketsRequest request = new GetBucketsRequest (Region);
 
+			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey);
 
-			BaseSigner signer = new BaseSigner (request);
-			request.Authorization = signer.CreateAuthorization (AWSAccessKeyId, AWSSecretKey);
+			using (HttpClient client = new HttpClient ()) {
+				ConfigureClientGet (client, request);
+				HttpResponseMessage response = client.GetAsync (request.Uri).Result;
 
-			using (Client = new HttpClient ()) {
-				HttpRequestMessage message = new HttpRequestMessage (HttpMethod.Get, request.Uri);
+				ListAllMyBucketsResultUnMarshaller unmarshaller = new ListAllMyBucketsResultUnMarshaller ();
+				unmarshaller.Configure (response);
 
-				Client.DefaultRequestHeaders.Host = request.Host;
-				Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue ("AWS4-HMAC-SHA256", request.Authorization);
-				Client.DefaultRequestHeaders.Add ("x-amz-date", request.XAmzDate);
-				Client.DefaultRequestHeaders.Add ("x-amz-content-sha256", request.XAmzContentSha256);
-				HttpResponseMessage response = Client.GetAsync (request.Uri).Result;
-				int i = 0;
+				ListAllMyBucketsResult result = unmarshaller.UnMarshal ();
+				return result;
 			}
-			return null;
 		}
 
+		public async Task<ListBucketResult> GetBucket (string bucketName)
+		{
+			GetBucketRequest request = new GetBucketRequest (Region, bucketName);
 
+			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey);
+
+			using (HttpClient client = new HttpClient ()) {
+				ConfigureClientGet (client, request);
+				HttpResponseMessage response = client.GetAsync (request.Uri).Result;
+
+				ListBucketResultUnMarshaller unmarshaller = new ListBucketResultUnMarshaller ();
+				unmarshaller.Configure (response);
+
+				ListBucketResult result = unmarshaller.UnMarshal ();
+				return result;
+			}
+		}
+
+		private void ConfigureClientGet (HttpClient client, BaseRequest request)
+		{
+			foreach (KeyValuePair<string,string> kvp in request.GetHeaders()) {
+
+				if (kvp.Key.Equals ("host", StringComparison.OrdinalIgnoreCase)) {
+					client.DefaultRequestHeaders.Host = kvp.Value;
+				} else if (kvp.Key.Equals ("authorization", StringComparison.OrdinalIgnoreCase)) {
+					client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue ("AWS4-HMAC-SHA256", kvp.Value);
+				} else {
+					client.DefaultRequestHeaders.Add (kvp.Key, kvp.Value);
+				}
+			}
+		}
 	}
 }
 

@@ -30,10 +30,16 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="nunit.framework" />
+    <Reference Include="System.Web.Services" />
+    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Test.cs" />
     <Compile Include="SHA256Service.cs" />
+    <Compile Include="Key.cs" />
+    <Compile Include="Web References\doc.s3.amazonaws.com\Reference.cs">
+      <DependentUpon>Reference.map</DependentUpon>
+    </Compile>
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
@@ -41,5 +47,23 @@
       <Project>{8CFB233F-84F6-45B0-89A5-9CE3EA4E05E2}</Project>
       <Name>S3Storage</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferences Include="Web References" />
+  </ItemGroup>
+  <ItemGroup>
+    <WebReferenceUrl Include="http://doc.s3.amazonaws.com/2006-03-01/AmazonS3.wsdl">
+      <UrlBehavior>Dynamic</UrlBehavior>
+      <RelPath>Web References\doc.s3.amazonaws.com</RelPath>
+      <UpdateFromURL>http://doc.s3.amazonaws.com/2006-03-01/AmazonS3.wsdl</UpdateFromURL>
+    </WebReferenceUrl>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Web References\doc.s3.amazonaws.com\AmazonS3.xsd" />
+    <None Include="Web References\doc.s3.amazonaws.com\AmazonS3.wsdl" />
+    <None Include="Web References\doc.s3.amazonaws.com\Reference.map">
+      <Generator>MSDiscoCodeGenerator</Generator>
+      <LastGenOutput>Reference.cs</LastGenOutput>
+    </None>
   </ItemGroup>
 </Project>

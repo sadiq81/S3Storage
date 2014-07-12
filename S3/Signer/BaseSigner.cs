@@ -8,8 +8,6 @@ namespace S3Storage.Signer
 {
 	public class BaseSigner
 	{
-		public BaseRequest BaseRequest { get; set; }
-
 		private const  string NEW_LINE = "\n";
 		private const  string AUTHORIZATION_SPLIT = ",";
 		private const  string DIVIDER = "/";
@@ -23,35 +21,34 @@ namespace S3Storage.Signer
 
 		private ISHA256Service HashService = ServiceContainer.Resolve<ISHA256Service> ();
 
-		public BaseSigner (BaseRequest baseRequest)
+		public BaseSigner ()
 		{
-			this.BaseRequest = baseRequest;
 		}
 
-		public string CreateAuthorization (string aWSAccessKeyId, string aWSSecretKey)
+		public void CreateAuthorization (BaseRequest baseRequest, string aWSAccessKeyId, string aWSSecretKey)
 		{
-			string canonicalRequest = BaseRequest.HttpMethod + NEW_LINE +
-			                          BaseRequest.Uri.AbsolutePath.objectKeyNameToRfc3986 () + NEW_LINE +
+			string canonicalRequest = baseRequest.HttpMethod + NEW_LINE +
+			                          baseRequest.Uri.AbsolutePath.objectKeyNameToRfc3986 () + NEW_LINE +
 			                          NEW_LINE +
-			                          BaseRequest.GetSignedHeaders () +
+			                          baseRequest.GetSignedHeaders () +
 			                          NEW_LINE +
-			                          BaseRequest.GetCanonicalHeaders () + NEW_LINE +
+			                          baseRequest.GetCanonicalHeaders () + NEW_LINE +
 			                          HASH_OF_EMPTY_PAYLOAD;
-			string scope = BaseRequest.Date.ToString (SCOPE_DATE_FORMAT) + DIVIDER + BaseRequest.Region.SHORT + DIVIDER + SERVICE + DIVIDER + REQUEST;
+			string scope = baseRequest.Date.ToString (SCOPE_DATE_FORMAT) + DIVIDER + baseRequest.Region.SHORT + DIVIDER + SERVICE + DIVIDER + REQUEST;
 
 
 			string stringToSign = SIGNATURE_VERSION + NEW_LINE +
-			                      BaseRequest.Date.ToString (TIMESTAMP_DATE_FORMAT) + NEW_LINE +
+			                      baseRequest.Date.ToString (TIMESTAMP_DATE_FORMAT) + NEW_LINE +
 			                      scope + NEW_LINE +
 			                      HashService.CreateHash (Encoding.UTF8.GetBytes (canonicalRequest)).ToHexString (true);
 
 			byte[] dateKey = HashService.CreateHash (
 				                 Encoding.UTF8.GetBytes (SIGNATURE + aWSSecretKey),
-				                 Encoding.UTF8.GetBytes (BaseRequest.Date.ToString (SCOPE_DATE_FORMAT)));
+				                 Encoding.UTF8.GetBytes (baseRequest.Date.ToString (SCOPE_DATE_FORMAT)));
 
 			byte[] dateRegionKey = HashService.CreateHash (
 				                       dateKey,
-				                       Encoding.UTF8.GetBytes (BaseRequest.Region.SHORT));
+				                       Encoding.UTF8.GetBytes (baseRequest.Region.SHORT));
 
 			byte[] dateRegionServiceKey = HashService.CreateHash (
 				                              dateRegionKey,
@@ -67,9 +64,9 @@ namespace S3Storage.Signer
 
 			string signatureHex = signatureBytes.ToHexString (true);
 
-			string authorization = "Credential=" + aWSAccessKeyId + DIVIDER + scope + AUTHORIZATION_SPLIT + "SignedHeaders=" + BaseRequest.GetCanonicalHeaders () + AUTHORIZATION_SPLIT + "Signature=" + signatureHex;
+			string authorization = "Credential=" + aWSAccessKeyId + DIVIDER + scope + AUTHORIZATION_SPLIT + "SignedHeaders=" + baseRequest.GetCanonicalHeaders () + AUTHORIZATION_SPLIT + "Signature=" + signatureHex;
 
-			return authorization;
+			baseRequest.Authorization = authorization;
 		}
 
 	}

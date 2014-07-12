@@ -33,7 +33,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="S3\Utils\StringUtilities.cs" />
     <Compile Include="S3\S3ClientCore.cs" />
-    <Compile Include="S3\Response\GetBucketsResponse.cs" />
     <Compile Include="S3\Request\GetBucketsRequest.cs" />
     <Compile Include="S3\Request\BaseRequest.cs" />
     <Compile Include="Service\ISHA256Service.cs" />
@@ -41,6 +40,19 @@
     <Compile Include="S3\IRegion.cs" />
     <Compile Include="S3\Region.cs" />
     <Compile Include="S3\Signer\BaseSigner.cs" />
+    <Compile Include="S3\Response\ListAllMyBucketsResult.cs" />
+    <Compile Include="S3\Model\Owner.cs" />
+    <Compile Include="S3\Model\Bucket.cs" />
+    <Compile Include="S3\Marshalling\BaseUnMarshaller.cs" />
+    <Compile Include="S3\Response\BaseResponse.cs" />
+    <Compile Include="S3\Marshalling\ListAllMyBucketsResultUnMarshaller.cs" />
+    <Compile Include="S3\AWSException\AWSErrorException.cs" />
+    <Compile Include="S3\Marshalling\IUnMarshaller.cs" />
+    <Compile Include="S3\Response\ListBucketResult.cs" />
+    <Compile Include="S3\Request\GetBucketRequest.cs" />
+    <Compile Include="S3\Marshalling\ListBucketResultUnMarshaller.cs" />
+    <Compile Include="S3\Model\Contents.cs" />
+    <Compile Include="S3\Model\StorageClass.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -50,5 +62,7 @@
     <Folder Include="S3\Request\" />
     <Folder Include="S3\Response\" />
     <Folder Include="S3\Signer\" />
+    <Folder Include="S3\Marshalling\" />
+    <Folder Include="S3\AWSException\" />
   </ItemGroup>
 </Project>
