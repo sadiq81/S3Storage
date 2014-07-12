@@ -35,11 +35,11 @@ namespace S3Storage.S3
 		{
 			GetBucketsRequest request = new GetBucketsRequest (Region);
 
-			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey);
+			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, null);
 
 			using (HttpClient client = new HttpClient ()) {
-				ConfigureClientGet (client, request);
-				HttpResponseMessage response = client.GetAsync (request.Uri).Result;
+				ConfigureClient (client, request);
+				HttpResponseMessage response = await client.GetAsync (request.Uri);
 
 				ListAllMyBucketsResultUnMarshaller unmarshaller = new ListAllMyBucketsResultUnMarshaller ();
 				unmarshaller.Configure (response);
@@ -53,11 +53,11 @@ namespace S3Storage.S3
 		{
 			GetBucketRequest request = new GetBucketRequest (Region, bucketName);
 
-			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey);
+			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, null);
 
 			using (HttpClient client = new HttpClient ()) {
-				ConfigureClientGet (client, request);
-				HttpResponseMessage response = client.GetAsync (request.Uri).Result;
+				ConfigureClient (client, request);
+				HttpResponseMessage response = await client.GetAsync (request.Uri);
 
 				ListBucketResultUnMarshaller unmarshaller = new ListBucketResultUnMarshaller ();
 				unmarshaller.Configure (response);
@@ -67,7 +67,61 @@ namespace S3Storage.S3
 			}
 		}
 
-		private void ConfigureClientGet (HttpClient client, BaseRequest request)
+		public async Task<GetObjectResult> GetObject (string bucketName, string objectName)
+		{
+			GetObjectRequest request = new GetObjectRequest (Region, bucketName, objectName);
+
+			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, null);
+
+			using (HttpClient client = new HttpClient ()) {
+				ConfigureClient (client, request);
+				HttpResponseMessage response = await client.GetAsync (request.Uri);
+
+				GetObjectUnMarshaller unmarshaller = new GetObjectUnMarshaller ();
+				unmarshaller.Configure (response);
+
+				GetObjectResult result = unmarshaller.UnMarshal ();
+				return result;
+			}
+		}
+
+		public async Task<PutObjectResult> PutObject (string bucketName, string objectName, byte[] buffer)
+		{
+			PutObjectRequest request = new PutObjectRequest (Region, bucketName, objectName, buffer);
+
+			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, buffer);
+
+			using (HttpClient client = new HttpClient ()) {
+				ConfigureClient (client, request);
+				HttpResponseMessage response = await client.PutAsync (request.Uri, new ByteArrayContent (buffer));
+
+				PutObjectUnMarshaller unmarshaller = new PutObjectUnMarshaller ();
+				unmarshaller.Configure (response);
+
+				PutObjectResult result = unmarshaller.UnMarshal ();
+				return result;
+			}
+		}
+
+		public async Task<DeleteObjectResult> DeleteObject (string bucketName, string objectName)
+		{
+			DeleteObjectRequest request = new DeleteObjectRequest (Region, bucketName, objectName);
+
+			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, null);
+
+			using (HttpClient client = new HttpClient ()) {
+				ConfigureClient (client, request);
+				HttpResponseMessage response = await client.DeleteAsync (request.Uri);
+
+				DeleteObjectUnMarshaller unmarshaller = new DeleteObjectUnMarshaller ();
+				unmarshaller.Configure (response);
+
+				DeleteObjectResult result = unmarshaller.UnMarshal ();
+				return result;
+			}
+		}
+
+		private void ConfigureClient (HttpClient client, BaseRequest request)
 		{
 			foreach (KeyValuePair<string,string> kvp in request.GetHeaders()) {
 
@@ -75,6 +129,8 @@ namespace S3Storage.S3
 					client.DefaultRequestHeaders.Host = kvp.Value;
 				} else if (kvp.Key.Equals ("authorization", StringComparison.OrdinalIgnoreCase)) {
 					client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue ("AWS4-HMAC-SHA256", kvp.Value);
+				} else if (kvp.Key.Equals ("content-length", StringComparison.OrdinalIgnoreCase)) {
+					//Do nothing
 				} else {
 					client.DefaultRequestHeaders.Add (kvp.Key, kvp.Value);
 				}

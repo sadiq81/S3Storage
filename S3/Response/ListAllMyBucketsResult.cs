@@ -4,7 +4,7 @@ using System.Xml.Serialization;
 namespace S3Storage.Response
 {
 	[XmlRoot]
-	public class ListAllMyBucketsResult : BaseResponse
+	public class ListAllMyBucketsResult : BaseResult
 	{
 		[XmlElement]
 		public Owner Owner { get; set; }

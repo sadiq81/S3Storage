@@ -4,6 +4,7 @@ using S3Storage.Service;
 using S3Storage.S3;
 using S3Storage;
 using S3Storage.Request;
+using System.Text;
 
 namespace Test
 {
@@ -25,7 +26,13 @@ namespace Test
 		{
 			//Client.GetBuckets ();
 
-			Client.GetBucket ("halalguide");
+			//Client.GetBucket ("halalguide");
+
+			//Client.GetObject ("halalguide", "MySampleFileChunked.txt");
+
+			Client.PutObject ("halalguide", "PutObject.txt", Encoding.UTF8.GetBytes ("Hello dolly"));
+
+			Client.DeleteObject ("halalguide", "PutObject.txt");
 		}
 	}
 }

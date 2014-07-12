@@ -25,15 +25,17 @@ namespace S3Storage.Signer
 		{
 		}
 
-		public void CreateAuthorization (BaseRequest baseRequest, string aWSAccessKeyId, string aWSSecretKey)
+		public void CreateAuthorization (BaseRequest baseRequest, string aWSAccessKeyId, string aWSSecretKey, byte[] buffer)
 		{
+			baseRequest.XAmzContentSha256 = buffer != null ? HashService.CreateHash (buffer).ToHexString (true) : HASH_OF_EMPTY_PAYLOAD;
+
 			string canonicalRequest = baseRequest.HttpMethod + NEW_LINE +
 			                          baseRequest.Uri.AbsolutePath.objectKeyNameToRfc3986 () + NEW_LINE +
 			                          NEW_LINE +
 			                          baseRequest.GetSignedHeaders () +
 			                          NEW_LINE +
 			                          baseRequest.GetCanonicalHeaders () + NEW_LINE +
-			                          HASH_OF_EMPTY_PAYLOAD;
+			                          baseRequest.XAmzContentSha256;
 			string scope = baseRequest.Date.ToString (SCOPE_DATE_FORMAT) + DIVIDER + baseRequest.Region.SHORT + DIVIDER + SERVICE + DIVIDER + REQUEST;
 
 

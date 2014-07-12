@@ -44,7 +44,6 @@
     <Compile Include="S3\Model\Owner.cs" />
     <Compile Include="S3\Model\Bucket.cs" />
     <Compile Include="S3\Marshalling\BaseUnMarshaller.cs" />
-    <Compile Include="S3\Response\BaseResponse.cs" />
     <Compile Include="S3\Marshalling\ListAllMyBucketsResultUnMarshaller.cs" />
     <Compile Include="S3\AWSException\AWSErrorException.cs" />
     <Compile Include="S3\Marshalling\IUnMarshaller.cs" />
@@ -53,6 +52,16 @@
     <Compile Include="S3\Marshalling\ListBucketResultUnMarshaller.cs" />
     <Compile Include="S3\Model\Contents.cs" />
     <Compile Include="S3\Model\StorageClass.cs" />
+    <Compile Include="S3\Request\GetObjectRequest.cs" />
+    <Compile Include="S3\Response\GetObjectResult.cs" />
+    <Compile Include="S3\Response\BaseResult.cs" />
+    <Compile Include="S3\Marshalling\GetObjectUnMarshaller.cs" />
+    <Compile Include="S3\Response\PutObjectResult.cs" />
+    <Compile Include="S3\Request\PutObjectRequest.cs" />
+    <Compile Include="S3\Marshalling\PutObjectUnMarshaller.cs" />
+    <Compile Include="S3\Request\DeleteObjectRequest.cs" />
+    <Compile Include="S3\Response\DeleteObjectResult.cs" />
+    <Compile Include="S3\Marshalling\DeleteObjectUnMarshaller.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>

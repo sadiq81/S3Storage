@@ -5,7 +5,7 @@ using S3Storage.Model;
 namespace S3Storage.Response
 {
 	[XmlRoot]
-	public class ListBucketResult : BaseResponse
+	public class ListBucketResult : BaseResult
 	{
 		[XmlElementAttribute]
 		public Contents[] Contents { get; set; }

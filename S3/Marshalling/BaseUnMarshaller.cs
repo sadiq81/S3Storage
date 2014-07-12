@@ -8,7 +8,7 @@ using S3Storage.AWSException;
 
 namespace S3Storage.Marshalling
 {
-	public class BaseUnMarshaller<T> : IUnMarshaller<T> where T: BaseResponse
+	public class BaseUnMarshaller<T> : IUnMarshaller<T> where T: BaseResult
 	{
 		private const string NameSpace = "http://s3.amazonaws.com/doc/2006-03-01/";
 
@@ -16,29 +16,29 @@ namespace S3Storage.Marshalling
 
 		protected HttpResponseMessage Message { get; set; }
 
-		T Response { get; set; }
+		protected T Result { get; set; }
 
 		public void Configure (HttpResponseMessage message)
 		{
 			this.Message = message;
 		}
 
-		public  T UnMarshal ()
+		public T UnMarshal ()
 		{
 			XDocument doc = XDocument.Load (Message.Content.ReadAsStreamAsync ().Result);
 
 			if (Message.StatusCode.Equals (HttpStatusCode.OK)) {
 				Serializer = new XmlSerializer (typeof(T), NameSpace);
-				Response = (T)Serializer.Deserialize (doc.CreateReader ());
-				Response.HttpStatusCode = Message.StatusCode;
-				Response.ContentLength = Message.Content.Headers.ContentLength;
-				return Response;
+				Result = (T)Serializer.Deserialize (doc.CreateReader ());
+				Result.HttpStatusCode = Message.StatusCode;
+				Result.ContentLength = Message.Content.Headers.ContentLength;
+				return Result;
 			} else {
-				Serializer = new XmlSerializer (typeof(BaseResponse));
-				BaseResponse response = (BaseResponse)Serializer.Deserialize (doc.CreateReader ());
-				response.HttpStatusCode = Message.StatusCode;
-				response.ContentLength = Message.Content.Headers.ContentLength;
-				throw new AWSErrorException (response);
+				Serializer = new XmlSerializer (typeof(BaseResult));
+				BaseResult result = (BaseResult)Serializer.Deserialize (doc.CreateReader ());
+				Result.HttpStatusCode = Message.StatusCode;
+				Result.ContentLength = Message.Content.Headers.ContentLength;
+				throw new AWSErrorException (Result);
 			}
 		}
 	}

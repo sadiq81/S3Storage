@@ -6,7 +6,7 @@ using System.Xml.Serialization;
 namespace S3Storage.Response
 {
 	[XmlRoot ("Result")]
-	public class BaseResponse
+	public class BaseResult
 	{
 		public long? ContentLength{ get; set; }
 

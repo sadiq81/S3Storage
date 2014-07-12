@@ -6,9 +6,9 @@ namespace S3Storage.AWSException
 {
 	public class AWSErrorException : Exception
 	{
-		public BaseResponse Response { get; set; }
+		public BaseResult Response { get; set; }
 
-		public AWSErrorException (BaseResponse response)
+		public AWSErrorException (BaseResult response)
 		{
 			this.Response = response;
 		}
@@ -16,7 +16,7 @@ namespace S3Storage.AWSException
 		public override string ToString ()
 		{
 			StringBuilder sb = new StringBuilder ();
-			foreach (BaseResponse.Error error in Response.Errors) {
+			foreach (BaseResult.Error error in Response.Errors) {
 				sb.Append (error.ToString () + " ");
 			}
 			return string.Format ("[AWSErrorException: HttpStatusCode={0}, Errors={1}]", Response.HttpStatusCode, sb.ToString ());
