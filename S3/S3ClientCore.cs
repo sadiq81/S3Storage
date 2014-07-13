@@ -86,24 +86,7 @@ namespace S3Storage.S3
 			}
 		}
 
-		public async Task<PutObjectResult> PutObject (string bucketName, string objectName, byte[] buffer)
-		{
-			PutObjectRequest request = new PutObjectRequest (Region, bucketName, objectName, buffer);
 
-			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, buffer);
-
-			using (HttpClient client = new HttpClient ()) {
-				
-				ConfigureClient (client, request);
-				HttpResponseMessage response = await client.PutAsync (request.Uri, new ByteArrayContent (buffer));
-
-				PutObjectUnMarshaller unmarshaller = new PutObjectUnMarshaller ();
-				unmarshaller.Configure (response);
-
-				PutObjectResult result = unmarshaller.UnMarshal ();
-				return result;
-			}
-		}
 
 		public async Task<DeleteBucketResult> DeleteBucket (string bucketName)
 		{
@@ -141,24 +124,39 @@ namespace S3Storage.S3
 			}
 		}
 
-		//Authorization
-		//Content-Length
-		//Date
-		//Host
-		//SHA256
 
-		public async Task<PutBucketResult> PutBucket (string bucketName, CreateBucketConfiguration configuration)
+		public async Task<PutObjectResult> PutObject (string bucketName, string objectName, byte[] buffer)
 		{
-			string content = configuration != null ? configuration.SerializeObject<CreateBucketConfiguration> () : "";
+			PutObjectRequest request = new PutObjectRequest (Region, bucketName, objectName, buffer);
 
-			PutBucketRequest request = new PutBucketRequest (Region, bucketName, Encoding.UTF8.GetBytes (content));
-
-			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, Encoding.UTF8.GetBytes (content));
+			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, buffer);
 
 			using (HttpClient client = new HttpClient ()) {
 
 				ConfigureClient (client, request);
-				HttpResponseMessage response = client.PutAsync (request.Uri, new ByteArrayContent (Encoding.UTF8.GetBytes (content))).Result;
+				HttpResponseMessage response = await client.PutAsync (request.Uri, new ByteArrayContent (buffer));
+
+				PutObjectUnMarshaller unmarshaller = new PutObjectUnMarshaller ();
+				unmarshaller.Configure (response);
+
+				PutObjectResult result = unmarshaller.UnMarshal ();
+				return result;
+			}
+		}
+
+		public async Task<PutBucketResult> PutBucket (string bucketName, CreateBucketConfiguration configuration)
+		{
+			string content = configuration != null ? configuration.SerializeObject<CreateBucketConfiguration> () : "";
+			byte[] buffer = Encoding.UTF8.GetBytes (content);
+
+			PutBucketRequest request = new PutBucketRequest (bucketName, buffer);
+
+			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, buffer);
+
+			using (HttpClient client = new HttpClient ()) {
+
+				ConfigureClient (client, request);
+				HttpResponseMessage response = client.PutAsync (request.Uri, new ByteArrayContent (buffer)).Result;
 
 				PutBucketUnMarshaller unmarshaller = new PutBucketUnMarshaller ();
 				unmarshaller.Configure (response);

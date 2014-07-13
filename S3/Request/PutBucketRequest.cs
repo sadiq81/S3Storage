@@ -20,7 +20,7 @@ namespace S3Storage.Request
 
 		public List<string> XAmzGrantFullControl{ get; set; }
 
-		public PutBucketRequest (Region region, string bucketName, byte[] buffer)
+		public PutBucketRequest (string bucketName, byte[] buffer)
 		{
 			this.HttpMethod = "PUT";
 			this.Region = Region.USEast_1;
@@ -28,6 +28,8 @@ namespace S3Storage.Request
 			this.Host = bucketName + "." + Region.USEast_1.LONG;
 			this.Date = DateTime.UtcNow;
 			this.ContentLength = buffer.GetLength (0).ToString ();
+			this.XAmzDate = Date.ToString ("yyyyMMddTHHmmssZ");
+
 		}
 
 	}

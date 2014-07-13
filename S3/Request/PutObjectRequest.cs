@@ -15,7 +15,6 @@ namespace S3Storage.Request
 			this.Uri = new Uri ("https://" + bucketName + "." + Region.LONG + "/" + objectName);
 			this.Host = bucketName + "." + Region.LONG;
 			this.Date = DateTime.UtcNow;
-			this.Region = Region;
 			this.XAmzDate = Date.ToString ("yyyyMMddTHHmmssZ");
 			this.ContentLength = buffer.GetLength (0).ToString ();
 
