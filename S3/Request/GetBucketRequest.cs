@@ -5,7 +5,7 @@ namespace S3Storage.Request
 {
 	public class GetBucketRequest : BaseRequest
 	{
-		public GetBucketRequest (IRegion region, string bucketName)
+		public GetBucketRequest (Region region, string bucketName)
 		{
 			this.HttpMethod = "GET";
 			this.Region = region;

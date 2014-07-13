@@ -14,9 +14,6 @@ namespace Test
 			var kha = KeyedHashAlgorithm.Create ("HMACSHA256");
 			kha.Key = key;
 			var hash_1 = kha.ComputeHash (buffer);
-
-			HMACSHA256 hmacsha256 = new HMACSHA256 (key);
-			var hash_2 = hmacsha256.ComputeHash (buffer);
 			return hash_1;
 
 		}

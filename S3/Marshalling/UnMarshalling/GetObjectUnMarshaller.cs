@@ -11,7 +11,7 @@ namespace S3Storage.Marshalling
 
 
 
-		public  GetObjectResult UnMarshal ()
+		new public  GetObjectResult UnMarshal ()
 		{
 			Result = new GetObjectResult ();
 

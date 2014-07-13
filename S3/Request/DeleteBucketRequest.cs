@@ -3,13 +3,13 @@ using S3Storage.S3;
 
 namespace S3Storage.Request
 {
-	public class GetObjectRequest : BaseRequest
+	public class DeleteBucketRequest  : BaseRequest
 	{
-		public GetObjectRequest (Region region, string bucketName, string objectName)
+		public DeleteBucketRequest (Region region, string bucketName)
 		{
-			this.HttpMethod = "GET";
+			this.HttpMethod = "DELETE";
 			this.Region = region;
-			this.Uri = new Uri ("https://" + bucketName + "." + Region.LONG + "/" + objectName);
+			this.Uri = new Uri ("https://" + bucketName + "." + Region.LONG);
 			this.Host = bucketName + "." + Region.LONG;
 			this.Date = DateTime.UtcNow;
 			this.Region = Region;

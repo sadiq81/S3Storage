@@ -1,5 +1,8 @@
 ﻿using System.Text;
 using System.Globalization;
+using System.Xml.Serialization;
+using System.IO;
+using System.Xml;
 
 namespace S3Storage.Utils
 {
@@ -44,6 +47,17 @@ namespace S3Storage.Utils
 				sb.Append (data [i].ToString (lowercase ? "x2" : "X2"));
 			}
 			return sb.ToString ();
+		}
+
+		public static string SerializeObject<T> (this T toSerialize)
+		{
+			StringWriter textWriter = new StringWriter ();
+			XmlSerializerNamespaces ns = new XmlSerializerNamespaces ();
+			ns.Add ("", "");
+			using (XmlWriter writer = XmlWriter.Create (textWriter, new XmlWriterSettings { OmitXmlDeclaration = true })) {
+				new XmlSerializer (toSerialize.GetType ()).Serialize (writer, toSerialize, ns);
+			}
+			return textWriter.ToString ();
 		}
 	}
 }

@@ -36,6 +36,7 @@ namespace S3Storage.Signer
 			                          NEW_LINE +
 			                          baseRequest.GetCanonicalHeaders () + NEW_LINE +
 			                          baseRequest.XAmzContentSha256;
+
 			string scope = baseRequest.Date.ToString (SCOPE_DATE_FORMAT) + DIVIDER + baseRequest.Region.SHORT + DIVIDER + SERVICE + DIVIDER + REQUEST;
 
 

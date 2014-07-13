@@ -5,7 +5,7 @@ namespace S3Storage.Request
 {
 	public class DeleteObjectRequest : BaseRequest
 	{
-		public DeleteObjectRequest (IRegion region, string bucketName, string objectName)
+		public DeleteObjectRequest (Region region, string bucketName, string objectName)
 		{
 			this.HttpMethod = "DELETE";
 			this.Region = region;

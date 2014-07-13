@@ -36,9 +36,9 @@ namespace S3Storage.Marshalling
 			} else {
 				Serializer = new XmlSerializer (typeof(BaseResult));
 				BaseResult result = (BaseResult)Serializer.Deserialize (doc.CreateReader ());
-				Result.HttpStatusCode = Message.StatusCode;
-				Result.ContentLength = Message.Content.Headers.ContentLength;
-				throw new AWSErrorException (Result);
+				result.HttpStatusCode = Message.StatusCode;
+				result.ContentLength = Message.Content.Headers.ContentLength;
+				throw new AWSErrorException (result);
 			}
 		}
 	}

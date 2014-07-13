@@ -37,31 +37,39 @@
     <Compile Include="S3\Request\BaseRequest.cs" />
     <Compile Include="Service\ISHA256Service.cs" />
     <Compile Include="Service\ServiceContainer.cs" />
-    <Compile Include="S3\IRegion.cs" />
     <Compile Include="S3\Region.cs" />
     <Compile Include="S3\Signer\BaseSigner.cs" />
     <Compile Include="S3\Response\ListAllMyBucketsResult.cs" />
     <Compile Include="S3\Model\Owner.cs" />
     <Compile Include="S3\Model\Bucket.cs" />
-    <Compile Include="S3\Marshalling\BaseUnMarshaller.cs" />
-    <Compile Include="S3\Marshalling\ListAllMyBucketsResultUnMarshaller.cs" />
     <Compile Include="S3\AWSException\AWSErrorException.cs" />
-    <Compile Include="S3\Marshalling\IUnMarshaller.cs" />
     <Compile Include="S3\Response\ListBucketResult.cs" />
     <Compile Include="S3\Request\GetBucketRequest.cs" />
-    <Compile Include="S3\Marshalling\ListBucketResultUnMarshaller.cs" />
     <Compile Include="S3\Model\Contents.cs" />
     <Compile Include="S3\Model\StorageClass.cs" />
     <Compile Include="S3\Request\GetObjectRequest.cs" />
     <Compile Include="S3\Response\GetObjectResult.cs" />
     <Compile Include="S3\Response\BaseResult.cs" />
-    <Compile Include="S3\Marshalling\GetObjectUnMarshaller.cs" />
     <Compile Include="S3\Response\PutObjectResult.cs" />
     <Compile Include="S3\Request\PutObjectRequest.cs" />
-    <Compile Include="S3\Marshalling\PutObjectUnMarshaller.cs" />
     <Compile Include="S3\Request\DeleteObjectRequest.cs" />
     <Compile Include="S3\Response\DeleteObjectResult.cs" />
-    <Compile Include="S3\Marshalling\DeleteObjectUnMarshaller.cs" />
+    <Compile Include="S3\Response\DeleteBucketResult.cs" />
+    <Compile Include="S3\Request\DeleteBucketRequest.cs" />
+    <Compile Include="S3\Response\PutBucketResult.cs" />
+    <Compile Include="S3\Request\PutBucketRequest.cs" />
+    <Compile Include="S3\Model\ACL.cs" />
+    <Compile Include="S3\Model\CreateBucketConfiguration.cs" />
+    <Compile Include="S3\Model\LocationConstraint.cs" />
+    <Compile Include="S3\Marshalling\UnMarshalling\BaseUnMarshaller.cs" />
+    <Compile Include="S3\Marshalling\UnMarshalling\DeleteBucketUnMarshaller.cs" />
+    <Compile Include="S3\Marshalling\UnMarshalling\DeleteObjectUnMarshaller.cs" />
+    <Compile Include="S3\Marshalling\UnMarshalling\GetObjectUnMarshaller.cs" />
+    <Compile Include="S3\Marshalling\UnMarshalling\IUnMarshaller.cs" />
+    <Compile Include="S3\Marshalling\UnMarshalling\ListAllMyBucketsResultUnMarshaller.cs" />
+    <Compile Include="S3\Marshalling\UnMarshalling\ListBucketResultUnMarshaller.cs" />
+    <Compile Include="S3\Marshalling\UnMarshalling\PutBucketUnMarshaller.cs" />
+    <Compile Include="S3\Marshalling\UnMarshalling\PutObjectUnMarshaller.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -73,5 +81,7 @@
     <Folder Include="S3\Signer\" />
     <Folder Include="S3\Marshalling\" />
     <Folder Include="S3\AWSException\" />
+    <Folder Include="S3\Marshalling\UnMarshalling\" />
+    <Folder Include="S3\Marshalling\Marshalling\" />
   </ItemGroup>
 </Project>

@@ -13,7 +13,7 @@ namespace S3Storage.Request
 
 		public Uri Uri { get; set; }
 
-		public IRegion Region { get; set; }
+		public Region Region { get; set; }
 
 		public string Range { get; set; }
 

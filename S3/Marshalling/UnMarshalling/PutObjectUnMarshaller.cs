@@ -1,18 +1,16 @@
-﻿using System;
-using S3Storage.Response;
+﻿using S3Storage.Response;
 using System.Net;
 using S3Storage.AWSException;
 
 namespace S3Storage.Marshalling
 {
-	public class DeleteObjectUnMarshaller : BaseUnMarshaller<DeleteObjectResult>
+	public class PutBucketUnMarshaller: BaseUnMarshaller<PutBucketResult>
 	{
-
-		public  DeleteObjectResult UnMarshal ()
+		new public  PutBucketResult UnMarshal ()
 		{
-			Result = new DeleteObjectResult ();
+			Result = new PutBucketResult ();
 
-			if (Message.StatusCode.Equals (HttpStatusCode.NoContent)) {
+			if (Message.StatusCode.Equals (HttpStatusCode.OK)) {
 				Result.HttpStatusCode = Message.StatusCode;
 				Result.ContentLength = Message.Content.Headers.ContentLength;
 				return Result;
@@ -21,8 +19,6 @@ namespace S3Storage.Marshalling
 				Result.ContentLength = Message.Content.Headers.ContentLength;
 				throw new AWSErrorException (Result);
 			}
-
-
 		}
 	}
 }

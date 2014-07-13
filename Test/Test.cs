@@ -5,6 +5,7 @@ using S3Storage.S3;
 using S3Storage;
 using S3Storage.Request;
 using System.Text;
+using S3Storage.Model;
 
 namespace Test
 {
@@ -17,7 +18,7 @@ namespace Test
 		public void BeforeAllTests ()
 		{
 			ServiceContainer.Register<ISHA256Service> (() => new SHA256Service ());
-			ServiceContainer.Register<S3ClientCore> (() => new S3ClientCore (Key.AWSAccessKeyId, Key.AWSSecretKey, new EUWest_1 ()));
+			ServiceContainer.Register<S3ClientCore> (() => new S3ClientCore (Key.AWSAccessKeyId, Key.AWSSecretKey, Region.EUWest_1));
 			Client = ServiceContainer.Resolve<S3ClientCore> ();
 		}
 
@@ -30,9 +31,13 @@ namespace Test
 
 			//Client.GetObject ("halalguide", "MySampleFileChunked.txt");
 
-			Client.PutObject ("halalguide", "PutObject.txt", Encoding.UTF8.GetBytes ("Hello dolly"));
+			//Client.PutObject ("halalguide", "PutObject.txt", Encoding.UTF8.GetBytes ("Hello dolly"));
 
-			Client.DeleteObject ("halalguide", "PutObject.txt");
+			//Client.DeleteObject ("halalguide", "PutObject.txt");
+
+			//Client.DeleteBucket ("halalguide");
+
+			Client.PutBucket ("testhalalguide", new CreateBucketConfiguration (LocationConstraint.EUWest_1));
 		}
 	}
 }

@@ -8,7 +8,7 @@ namespace S3Storage.Request
 	{
 		byte[] buffer { get; set; }
 
-		public PutObjectRequest (IRegion region, string bucketName, string objectName, byte[] buffer)
+		public PutObjectRequest (Region region, string bucketName, string objectName, byte[] buffer)
 		{
 			this.HttpMethod = "PUT";
 			this.Region = region;
