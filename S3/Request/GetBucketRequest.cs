@@ -9,7 +9,7 @@ namespace S3Storage.Request
 		{
 			this.HttpMethod = "GET";
 			this.Region = region;
-			this.Uri = new Uri ("https://" + bucketName + "." + Region.LONG);
+			this.Uri = new Uri ("http://" + bucketName + "." + Region.LONG);
 			this.Host = bucketName + "." + Region.LONG;
 			this.Date = DateTime.UtcNow;
 			this.Region = Region;

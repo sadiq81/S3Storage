@@ -23,6 +23,8 @@ namespace S3Storage.S3
 
 		public Region Region { get; set; }
 
+		private HttpClient Client;
+
 		BaseSigner BaseSigner = new BaseSigner ();
 
 		public S3ClientCore (string aWSAccessKeyId, string aWSSecretKey, Region region)
@@ -38,9 +40,9 @@ namespace S3Storage.S3
 
 			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, null);
 
-			using (HttpClient client = new HttpClient ()) {
-				ConfigureClient (client, request);
-				HttpResponseMessage response = await client.GetAsync (request.Uri);
+			using (Client = new HttpClient ()) {
+				ConfigureClient (Client, request);
+				HttpResponseMessage response = await Client.GetAsync (request.Uri);
 
 				ListAllMyBucketsResultUnMarshaller unmarshaller = new ListAllMyBucketsResultUnMarshaller ();
 				unmarshaller.Configure (response);
@@ -56,9 +58,10 @@ namespace S3Storage.S3
 
 			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, null);
 
-			using (HttpClient client = new HttpClient ()) {
-				ConfigureClient (client, request);
-				HttpResponseMessage response = await client.GetAsync (request.Uri);
+			using (Client = new HttpClient ()) {
+				ConfigureClient (Client, request);
+
+				HttpResponseMessage response = await Client.GetAsync (request.Uri);
 
 				ListBucketResultUnMarshaller unmarshaller = new ListBucketResultUnMarshaller ();
 				unmarshaller.Configure (response);
@@ -74,9 +77,9 @@ namespace S3Storage.S3
 
 			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, null);
 
-			using (HttpClient client = new HttpClient ()) {
-				ConfigureClient (client, request);
-				HttpResponseMessage response = await client.GetAsync (request.Uri);
+			using (Client = new HttpClient ()) {
+				ConfigureClient (Client, request);
+				HttpResponseMessage response = await Client.GetAsync (request.Uri);
 
 				GetObjectUnMarshaller unmarshaller = new GetObjectUnMarshaller ();
 				unmarshaller.Configure (response);
@@ -94,9 +97,9 @@ namespace S3Storage.S3
 
 			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, null);
 
-			using (HttpClient client = new HttpClient ()) {
-				ConfigureClient (client, request);
-				HttpResponseMessage response = await client.DeleteAsync (request.Uri);
+			using (Client = new HttpClient ()) {
+				ConfigureClient (Client, request);
+				HttpResponseMessage response = await Client.DeleteAsync (request.Uri);
 
 				DeleteBucketUnMarshaller unmarshaller = new DeleteBucketUnMarshaller ();
 				unmarshaller.Configure (response);
@@ -112,9 +115,9 @@ namespace S3Storage.S3
 
 			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, null);
 
-			using (HttpClient client = new HttpClient ()) {
-				ConfigureClient (client, request);
-				HttpResponseMessage response = await client.DeleteAsync (request.Uri);
+			using (Client = new HttpClient ()) {
+				ConfigureClient (Client, request);
+				HttpResponseMessage response = await Client.DeleteAsync (request.Uri);
 
 				DeleteObjectUnMarshaller unmarshaller = new DeleteObjectUnMarshaller ();
 				unmarshaller.Configure (response);
@@ -131,10 +134,10 @@ namespace S3Storage.S3
 
 			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, buffer);
 
-			using (HttpClient client = new HttpClient ()) {
+			using (Client = new HttpClient ()) {
 
-				ConfigureClient (client, request);
-				HttpResponseMessage response = await client.PutAsync (request.Uri, new ByteArrayContent (buffer));
+				ConfigureClient (Client, request);
+				HttpResponseMessage response = await Client.PutAsync (request.Uri, new ByteArrayContent (buffer));
 
 				PutObjectUnMarshaller unmarshaller = new PutObjectUnMarshaller ();
 				unmarshaller.Configure (response);
@@ -149,14 +152,14 @@ namespace S3Storage.S3
 			string content = configuration != null ? configuration.SerializeObject<CreateBucketConfiguration> () : "";
 			byte[] buffer = Encoding.UTF8.GetBytes (content);
 
-			PutBucketRequest request = new PutBucketRequest (bucketName, buffer);
+			PutBucketRequest request = new PutBucketRequest (Region, bucketName, buffer);
 
 			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, buffer);
 
-			using (HttpClient client = new HttpClient ()) {
+			using (Client = new HttpClient ()) {
 
-				ConfigureClient (client, request);
-				HttpResponseMessage response = client.PutAsync (request.Uri, new ByteArrayContent (buffer)).Result;
+				ConfigureClient (Client, request);
+				HttpResponseMessage response = Client.PutAsync (request.Uri, new ByteArrayContent (buffer)).Result;
 
 				PutBucketUnMarshaller unmarshaller = new PutBucketUnMarshaller ();
 				unmarshaller.Configure (response);
@@ -166,22 +169,24 @@ namespace S3Storage.S3
 			}
 		}
 
-		private void ConfigureClient (HttpClient client, BaseRequest request)
+		private void ConfigureClient (HttpClient Client, BaseRequest request)
 		{
+			Client.DefaultRequestHeaders.Clear ();
+
 			foreach (KeyValuePair<string,string> kvp in request.GetHeaders()) {
 
 				if (kvp.Key.Equals ("host", StringComparison.OrdinalIgnoreCase)) {
-					client.DefaultRequestHeaders.Host = kvp.Value;
+					Client.DefaultRequestHeaders.Host = kvp.Value;
 				} else if (kvp.Key.Equals ("authorization", StringComparison.OrdinalIgnoreCase)) {
-					client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue ("AWS4-HMAC-SHA256", kvp.Value);
+					Client.DefaultRequestHeaders.Authorization = new AuthenticationHeaderValue ("AWS4-HMAC-SHA256", kvp.Value);
 				} else if (kvp.Key.Equals ("content-length", StringComparison.OrdinalIgnoreCase)) {
 					//Do nothing
 				} else if (kvp.Key.Equals ("content-type", StringComparison.OrdinalIgnoreCase)) {
 					//Do nothing
 				} else if (kvp.Key.Equals ("date", StringComparison.OrdinalIgnoreCase)) {
-					client.DefaultRequestHeaders.Date = request.Date;
+					Client.DefaultRequestHeaders.Date = request.Date;
 				} else {
-					client.DefaultRequestHeaders.Add (kvp.Key, kvp.Value);
+					Client.DefaultRequestHeaders.Add (kvp.Key, kvp.Value);
 				}
 			}
 
