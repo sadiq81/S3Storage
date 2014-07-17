@@ -1,0 +1,40 @@
+require "rake/clean"
+
+CLEAN.include "*.xam"
+CLEAN.include "xamarin-component"
+
+COMPONENT = "S3Storage-1.0.0.xam"
+
+file "xamarin-component/xamarin-component.exe" do
+	puts "* Downloading xamarin-component..."
+	mkdir "xamarin-component"
+	sh "curl -L https://components.xamarin.com/submit/xpkg > xamarin-component.zip"
+	sh "unzip -o -q xamarin-component.zip -d xamarin-component"
+	sh "rm xamarin-component.zip"
+end
+
+task :default => "xamarin-component/xamarin-component.exe" do
+	line = <<-END
+	mono xamarin-component/xamarin-component.exe create-manually #{COMPONENT} \
+		--name="S3 Storage" \
+		--summary="Use Amazons S3 for storage." \
+		--publisher="Eazy IT" \
+		--website="http://eazyit.dk/" \
+		--details="Details.md" \
+		--license="License.md" \
+		--getting-started="GettingStarted.md" \
+		--icon="icons/S3Storage_128x128.png" \
+		--icon="icons/S3Storage_512x512.png" \
+		--library="android":"bin/S3Storage.dll" \
+		--library="ios":"bin/S3Storage.dll" \
+		--library="winphone-7.0	":"bin/S3Storage.dll" \
+		--library="winphone-7.1	":"bin/S3Storage.dll" \
+		--sample="iOS Sample. Demonstrates S3 storage on iOS.":"samples/SimpleDBSample/SimpleDBSample.sln" \
+		--sample="Android Sample. Demonstrates S3 storage on Android.":"samples/SimpleDBSample/SimpleDBSample.sln" \
+
+		END
+	puts "* Creating #{COMPONENT}..."
+	puts line.strip.gsub "\t\t", "\\\n    "
+	sh line, :verbose => false
+	puts "* Created #{COMPONENT}"
+end
