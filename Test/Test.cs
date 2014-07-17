@@ -72,7 +72,6 @@ namespace Test
 		{
 			byte[] message = Encoding.UTF8.GetBytes (ObjectText);
 
-
 			PutObjectResult response = Client.PutObject (BucketName, FileName, message).Result;
 			Assert.AreEqual (HttpStatusCode.OK, response.HttpStatusCode);
 
@@ -85,7 +84,7 @@ namespace Test
 			Assert.AreEqual (ObjectText, messageReturned);
 
 			DeleteObjectResult response3 = Client.DeleteObject (BucketName, FileName).Result;
-			Assert.AreEqual (HttpStatusCode.OK, response3.HttpStatusCode);
+			Assert.AreEqual (HttpStatusCode.NoContent, response3.HttpStatusCode);
 		}
 	}
 }
