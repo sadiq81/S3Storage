@@ -1,24 +1,45 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="S3/Marshalling/UnMarshalling/PutObjectUnMarshaller.cs">
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.1" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="Xamarin Component/samples/S3StorageSample/S3StorageSample.iOS/DetailViewController.cs">
     <Files>
-      <File FileName="Test/Test.cs" Line="63" Column="3" />
-      <File FileName="S3/S3ClientCore.cs" Line="161" Column="1" />
-      <File FileName="S3/Request/BaseRequest.cs" Line="80" Column="28" />
-      <File FileName="S3/Marshalling/UnMarshalling/PutObjectUnMarshaller.cs" Line="20" Column="1" />
-      <File FileName="S3/Request/PutBucketRequest.cs" Line="28" Column="50" />
+      <File FileName="Xamarin Component/samples/S3StorageSample/S3StorageSample.iOS/BucketViewController.cs" Line="111" Column="7" />
+      <File FileName="Xamarin Component/samples/S3StorageSample/S3StorageSample.iOS/BucketsViewController.cs" Line="145" Column="99" />
+      <File FileName="S3/Response/ListAllMyBucketsResult.cs" Line="7" Column="2" />
+      <File FileName="S3/Response/GetObjectResult.cs" Line="1" Column="1" />
+      <File FileName="S3/Response/ListBucketResult.cs" Line="11" Column="16" />
+      <File FileName="S3/Model/Contents.cs" Line="7" Column="23" />
+      <File FileName="Xamarin Component/samples/S3StorageSample/S3StorageSample.iOS/Main.cs" Line="23" Column="1" />
+      <File FileName="S3/S3ClientCore.cs" Line="74" Column="36" />
+      <File FileName="Xamarin Component/samples/S3StorageSample/S3StorageSample.iOS/DetailViewController.cs" Line="33" Column="4" />
+      <File FileName="Xamarin Component/samples/S3StorageSample/S3StorageSample.iOS/DetailViewController.designer.cs" Line="1" Column="1" />
     </Files>
     <Pads>
-      <Pad Id="MonoDevelop.NUnit.TestPad">
+      <Pad Id="ProjectPad">
         <State expanded="True">
-          <Node name="Test" expanded="True">
-            <Node name="Test" expanded="True">
-              <Node name="Test" expanded="True">
-                <Node name="TestGetBucket" selected="True" />
+          <Node name="S3Storage" expanded="True">
+            <Node name="S3" expanded="True">
+              <Node name="AWSException" expanded="True" />
+              <Node name="Marshalling" expanded="True">
+                <Node name="UnMarshalling" expanded="True" />
               </Node>
+              <Node name="Model" expanded="True" />
+              <Node name="Request" expanded="True" />
+              <Node name="Response" expanded="True" />
+              <Node name="Signer" expanded="True" />
+              <Node name="Utils" expanded="True" />
             </Node>
           </Node>
+          <Node name="S3StorageSample.iOS" expanded="True">
+            <Node name="References" expanded="True" />
+            <Node name="ComponentReferenceFolder" expanded="True" />
+            <Node name="Resources" expanded="True" />
+            <Node name="DetailViewController.cs" expanded="True" selected="True" />
+          </Node>
+          <Node name="Test" expanded="True" />
         </State>
+      </Pad>
+      <Pad Id="MonoDevelop.NUnit.TestPad">
+        <State expanded="True" selected="True" />
       </Pad>
     </Pads>
   </MonoDevelop.Ide.Workbench>
@@ -26,9 +47,6 @@
     <BreakpointStore>
       <Breakpoint file="/Users/privat/Projects/S3Storage/S3/Marshalling/GetObjectUnMarshaller.cs" line="22" column="1" />
       <Breakpoint file="/Users/privat/Projects/S3Storage/S3/Marshalling/BaseUnMarshaller.cs" line="28" column="1" />
-      <Breakpoint file="/Users/privat/Projects/S3Storage/S3/Marshalling/UnMarshalling/PutObjectUnMarshaller.cs" line="20" column="1" />
-      <Breakpoint file="/Users/privat/Projects/S3Storage/S3/S3ClientCore.cs" line="159" column="1" />
-      <Breakpoint file="/Users/privat/Projects/S3Storage/S3/S3ClientCore.cs" line="61" column="1" />
     </BreakpointStore>
   </MonoDevelop.Ide.DebuggingService.Breakpoints>
   <MonoDevelop.Ide.DebuggingService.PinnedWatches />
