@@ -83,11 +83,24 @@
     <CodesignProvision>Automatic:AppStore</CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
   </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Release</OutputPath>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
+    <Reference Include="S3Storage">
+      <HintPath>..\..\..\bin\S3Storage.dll</HintPath>
+    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -118,12 +131,6 @@
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
   </ItemGroup>
-  <Import Project="..\..\..\..\S3StorageSample.Core\S3StorageSample.Core.projitems" Label="Shared" Condition="Exists('..\..\..\..\S3StorageSample.Core\S3StorageSample.Core.projitems')" />
+  <Import Project="..\S3StorageSample.Core\S3StorageSample.Core.projitems" Label="Shared" Condition="Exists('..\S3StorageSample.Core\S3StorageSample.Core.projitems')" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\S3Storage.csproj">
-      <Project>{8CFB233F-84F6-45B0-89A5-9CE3EA4E05E2}</Project>
-      <Name>S3Storage</Name>
-    </ProjectReference>
-  </ItemGroup>
 </Project>

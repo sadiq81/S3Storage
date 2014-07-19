@@ -11,13 +11,13 @@ using Android.Provider;
 using System.Threading.Tasks;
 using S3Storage.AWSException;
 using System.Collections.Generic;
-using S3Storage.Model;
 using S3Storage.Service;
 using S3Storage.S3;
 using S3Storage.Response;
 using Java.IO;
 using System.IO;
 using Android.Graphics;
+using S3Storage.Model;
 
 namespace S3StorageSample.Droid
 {
@@ -51,13 +51,6 @@ namespace S3StorageSample.Droid
 
 			Initialize ();
 		
-		}
-
-
-		protected override void OnResume ()
-		{
-			base.OnResume ();
-			int i = 0;
 		}
 
 		public override bool OnCreateOptionsMenu (IMenu menu)
@@ -213,8 +206,8 @@ namespace S3StorageSample.Droid
 								NotifyDataSetInvalidated ();
 							} catch (AWSErrorException exception) {
 								AlertDialog.Builder alert2 = new AlertDialog.Builder (Context);
-								alert.SetTitle (exception.ToString ());
-								alert.Show ();
+								alert2.SetTitle (exception.ToString ());
+								alert2.Show ();
 							} finally {
 								btnLock = false;
 							}

@@ -1,6 +1,11 @@
 ﻿<Properties>
-  <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug|iPhoneSimulator" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.1" />
-  <MonoDevelop.Ide.Workbench />
+  <MonoDevelop.Ide.Workspace ActiveConfiguration="Release" PreferredExecutionTarget="Android.192.168.56.101:5555" />
+  <MonoDevelop.Ide.Workbench ActiveDocument="S3StorageSample.iOS/Main.cs">
+    <Files>
+      <File FileName="S3StorageSample.iOS/Main.cs" Line="1" Column="1" />
+      <File FileName="S3StorageSample.Droid/S3Application.cs" Line="1" Column="1" />
+    </Files>
+  </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
     <BreakpointStore>
       <Breakpoint file="/Users/privat/Projects/S3Storage/Xamarin Component/samples/S3StorageSample/S3StorageSample.iOS/BucketsViewController.cs" line="31" column="1" />

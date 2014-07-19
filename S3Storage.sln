@@ -5,11 +5,11 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S3Storage", "S3Storage.cspr
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test", "Test\Test.csproj", "{6DD2E45E-1B1C-49D0-80CA-4660BBEEC4BA}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S3StorageSample.iOS", "Xamarin Component\samples\S3StorageSample\S3StorageSample.iOS\S3StorageSample.iOS.csproj", "{5683704E-4608-414C-AB8C-1A57747384BD}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S3StorageSample.Droid", "Xamarin Component\samples\S3StorageSample\S3StorageSample.Droid\S3StorageSample.Droid.csproj", "{8C74D9AA-BC9D-4FAC-862D-B3BC3D5EF271}"
 EndProject
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "S3StorageSample.Core", "S3StorageSample.Core\S3StorageSample.Core.shproj", "{DED5DB4B-03EB-408C-B6FC-A8E96F82DE9B}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "S3StorageSample.Core", "Xamarin Component\samples\S3StorageSample\S3StorageSample.Core\S3StorageSample.Core.shproj", "{DED5DB4B-03EB-408C-B6FC-A8E96F82DE9B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S3StorageSample.iOS", "Xamarin Component\samples\S3StorageSample\S3StorageSample.iOS\S3StorageSample.iOS.csproj", "{5683704E-4608-414C-AB8C-1A57747384BD}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -73,7 +73,7 @@ Global
 		{8CFB233F-84F6-45B0-89A5-9CE3EA4E05E2}.Release|iPhoneSimulator.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(MonoDevelopProperties) = preSolution
-		StartupItem = Xamarin Component\samples\S3StorageSample\S3StorageSample.iOS\S3StorageSample.iOS.csproj
+		StartupItem = S3Storage.csproj
 		Policies = $0
 		$0.DotNetNamingPolicy = $1
 		$1.DirectoryNamespaceAssociation = PrefixedFlat

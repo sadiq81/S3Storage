@@ -183,8 +183,8 @@ namespace S3StorageSample.Droid
 								NotifyDataSetInvalidated ();
 							} catch (AWSErrorException exception) {
 								AlertDialog.Builder alert2 = new AlertDialog.Builder (Context);
-								alert.SetTitle (exception.ToString ());
-								alert.Show ();
+								alert2.SetTitle (exception.ToString ());
+								alert2.Show ();
 							} finally {
 								btnLock = false;
 							}

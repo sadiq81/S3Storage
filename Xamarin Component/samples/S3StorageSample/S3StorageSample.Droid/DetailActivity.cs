@@ -32,10 +32,9 @@ namespace S3StorageSample.Droid
 			BucketName = Intent.GetStringExtra ("bucketName");
 			ObjectName = Intent.GetStringExtra ("objectName");
 
-
 			GetObjectResult result = await ServiceContainer.Resolve<S3ClientCore> ().GetObject (BucketName, ObjectName);
 			byte[] buffer = new byte[result.Stream.Length];
-			int readResult = result.Stream.Read (buffer, 0, buffer.Length);
+			result.Stream.Read (buffer, 0, buffer.Length);
 
 			SetContentView (Resource.Layout.Detail);
 			ImageView imageView = FindViewById<ImageView> (Resource.Id.imageView1);

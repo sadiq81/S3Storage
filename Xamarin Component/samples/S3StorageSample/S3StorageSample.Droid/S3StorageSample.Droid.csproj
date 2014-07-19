@@ -29,13 +29,13 @@
     <ConsolePause>false</ConsolePause>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>full</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\Release</OutputPath>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <AndroidUseSharedRuntime>false</AndroidUseSharedRuntime>
     <ConsolePause>false</ConsolePause>
+    <AndroidSupportedAbis>armeabi;armeabi-v7a;x86</AndroidSupportedAbis>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -43,7 +43,10 @@
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
     <Reference Include="Xamarin.Android.Support.v4">
-      <HintPath>..\..\..\..\Components\xamandroidsupportv4-18-19.1.0\lib\android\Xamarin.Android.Support.v4.dll</HintPath>
+      <HintPath>..\Components\xamandroidsupportv4-18-19.1.0\lib\android\Xamarin.Android.Support.v4.dll</HintPath>
+    </Reference>
+    <Reference Include="S3Storage">
+      <HintPath>..\..\..\bin\S3Storage.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
@@ -79,7 +82,7 @@
     <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
     <AndroidResource Include="Resources\drawable\ic_action_logo.png" />
   </ItemGroup>
-  <Import Project="..\..\..\..\S3StorageSample.Core\S3StorageSample.Core.projitems" Label="Shared" Condition="Exists('..\..\..\..\S3StorageSample.Core\S3StorageSample.Core.projitems')" />
+  <Import Project="..\S3StorageSample.Core\S3StorageSample.Core.projitems" Label="Shared" Condition="Exists('..\S3StorageSample.Core\S3StorageSample.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
   <ItemGroup>
     <Folder Include="Resources\menu\" />
@@ -95,11 +98,5 @@
       <Version>19.1.0</Version>
       <Visible>False</Visible>
     </XamarinComponentReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\..\..\S3Storage.csproj">
-      <Project>{8CFB233F-84F6-45B0-89A5-9CE3EA4E05E2}</Project>
-      <Name>S3Storage</Name>
-    </ProjectReference>
   </ItemGroup>
 </Project>

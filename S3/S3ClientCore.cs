@@ -137,12 +137,8 @@ namespace S3Storage.S3
 			using (Client = new HttpClient ()) {
 
 				ConfigureClient (Client, request);
-				HttpResponseMessage response = null;
-				try {
-					response = await Client.PutAsync (request.Uri, new ByteArrayContent (buffer));
-				} catch (Exception e) {
-					int i = 0;
-				}
+
+				HttpResponseMessage response = await Client.PutAsync (request.Uri, new ByteArrayContent (buffer));
 
 				PutObjectUnMarshaller unmarshaller = new PutObjectUnMarshaller ();
 				unmarshaller.Configure (response);
@@ -164,7 +160,7 @@ namespace S3Storage.S3
 			using (Client = new HttpClient ()) {
 
 				ConfigureClient (Client, request);
-				HttpResponseMessage response = Client.PutAsync (request.Uri, new ByteArrayContent (buffer)).Result;
+				HttpResponseMessage response = await Client.PutAsync (request.Uri, new ByteArrayContent (buffer));
 
 				PutBucketUnMarshaller unmarshaller = new PutBucketUnMarshaller ();
 				unmarshaller.Configure (response);
