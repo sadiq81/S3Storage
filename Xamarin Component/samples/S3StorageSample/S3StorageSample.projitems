@@ -6,7 +6,7 @@
     <SharedGUID>{F60FDEFA-E8A1-425B-BC99-CE10E1660139}</SharedGUID>
   </PropertyGroup>
   <PropertyGroup Label="Configuration">
-    <Import_RootNamespace>S3StorageSample</Import_RootNamespace>
+    <Import_RootNamespace>S3StorageSample.Core</Import_RootNamespace>
   </PropertyGroup>
   <ItemGroup>
     <Folder Include="$(MSBuildThisFileDirectory)Services\" />

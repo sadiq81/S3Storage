@@ -11,46 +11,41 @@ using Android.Runtime;
 using Android.Views;
 using Android.Widget;
 using S3StorageSample.Droid;
+using S3Storage.Response;
+using S3Storage.Service;
+using S3Storage.S3;
+using Android.Graphics;
 
 namespace S3StorageSample.Droid
 {
 
-	[Activity (Label = "DetailActivity")]	
-	public class Detail : Activity
+	[Activity (Label = "DetailActivity", ParentActivity = typeof(BucketActivity))]	
+	public class DetailActivity : Activity
 	{
 		private string BucketName;
 		private string ObjectName;
 
-		protected override void OnCreate (Bundle bundle)
+		protected async override void OnCreate (Bundle bundle)
 		{
 			base.OnCreate (bundle);
-
 
 			BucketName = Intent.GetStringExtra ("bucketName");
 			ObjectName = Intent.GetStringExtra ("objectName");
 
+
+			GetObjectResult result = await ServiceContainer.Resolve<S3ClientCore> ().GetObject (BucketName, ObjectName);
+			byte[] buffer = new byte[result.Stream.Length];
+			int readResult = result.Stream.Read (buffer, 0, buffer.Length);
+
 			SetContentView (Resource.Layout.Detail);
-			TextView textView = (TextView)FindViewById (Resource.Id.TextView);
-			textView.Text = ObjectName;
+			ImageView imageView = FindViewById<ImageView> (Resource.Id.imageView1);
 
-			ActionBar.SetHomeButtonEnabled (true);
-			ActionBar.SetDisplayHomeAsUpEnabled (true);
-
-
+			var imageBitmap = BitmapFactory.DecodeByteArray (buffer, 0, buffer.Length);
+			RunOnUiThread (() => imageView.SetImageBitmap (imageBitmap));
+		
 			// Create your application here
 		}
 
-		public override bool OnOptionsItemSelected (IMenuItem item)
-		{
-			switch (item.ItemId) {
-			case Android.Resource.Id.Home:
-				Finish ();
-				return true;
-
-			default:
-				return base.OnOptionsItemSelected (item);
-			}
-		}
 	}
 }
 

@@ -42,14 +42,17 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="Mono.Android" />
-    <Reference Include="S3Storage">
-      <HintPath>..\..\..\bin\S3Storage.dll</HintPath>
+    <Reference Include="Xamarin.Android.Support.v4">
+      <HintPath>..\..\..\..\Components\xamandroidsupportv4-18-19.1.0\lib\android\Xamarin.Android.Support.v4.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="MainActivity.cs" />
     <Compile Include="Resources\Resource.designer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="S3Application.cs" />
+    <Compile Include="BucketsActivity.cs" />
+    <Compile Include="BucketActivity.cs" />
+    <Compile Include="DetailActivity.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Resources\AboutResources.txt" />
@@ -57,9 +60,46 @@
     <None Include="Properties\AndroidManifest.xml" />
   </ItemGroup>
   <ItemGroup>
-    <AndroidResource Include="Resources\layout\Main.axml" />
     <AndroidResource Include="Resources\values\Strings.xml" />
-    <AndroidResource Include="Resources\drawable\Icon.png" />
+    <AndroidResource Include="Resources\menu\MainMenu.xml" />
+    <AndroidResource Include="Resources\layout\Detail.axml" />
+    <AndroidResource Include="Resources\layout\Buckets.axml" />
+    <AndroidResource Include="Resources\layout\Bucket.axml" />
+    <AndroidResource Include="Resources\values\Theme.xml" />
+    <AndroidResource Include="Resources\drawable\ab_background.xml" />
+    <AndroidResource Include="Resources\drawable\discrete_shadow.xml" />
+    <AndroidResource Include="Resources\drawable\Ic_action_new_label.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Ic_action_new_label.png" />
+    <AndroidResource Include="Resources\drawable-hdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\Ic_action_new_label.png" />
+    <AndroidResource Include="Resources\drawable-mdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Ic_action_new_label.png" />
+    <AndroidResource Include="Resources\drawable-xhdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Ic_action_new_label.png" />
+    <AndroidResource Include="Resources\drawable-xxhdpi\Icon.png" />
+    <AndroidResource Include="Resources\drawable\ic_action_logo.png" />
   </ItemGroup>
+  <Import Project="..\..\..\..\S3StorageSample.Core\S3StorageSample.Core.projitems" Label="Shared" Condition="Exists('..\..\..\..\S3StorageSample.Core\S3StorageSample.Core.projitems')" />
   <Import Project="$(MSBuildExtensionsPath)\Novell\Novell.MonoDroid.CSharp.targets" />
+  <ItemGroup>
+    <Folder Include="Resources\menu\" />
+    <Folder Include="Resources\raw\" />
+  </ItemGroup>
+  <ItemGroup>
+    <AndroidAsset Include="Assets\0.jpg" />
+    <AndroidAsset Include="Assets\1.jpg" />
+    <AndroidAsset Include="Assets\2.jpg" />
+  </ItemGroup>
+  <ItemGroup>
+    <XamarinComponentReference Include="xamandroidsupportv4-18">
+      <Version>19.1.0</Version>
+      <Visible>False</Visible>
+    </XamarinComponentReference>
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\..\..\S3Storage.csproj">
+      <Project>{8CFB233F-84F6-45B0-89A5-9CE3EA4E05E2}</Project>
+      <Name>S3Storage</Name>
+    </ProjectReference>
+  </ItemGroup>
 </Project>

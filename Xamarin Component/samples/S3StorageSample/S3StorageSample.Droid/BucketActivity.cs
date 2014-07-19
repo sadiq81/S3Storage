@@ -17,10 +17,11 @@ using S3Storage.S3;
 using S3Storage.Response;
 using Java.IO;
 using System.IO;
+using Android.Graphics;
 
 namespace S3StorageSample.Droid
 {
-	[Activity (Label = "Bucket", Icon = "@drawable/icon")]
+	[Activity (Label = "Bucket", Icon = "@drawable/icon", ParentActivity = typeof(BucketsActivity), LaunchMode = Android.Content.PM.LaunchMode.SingleTop)]
 	public class BucketActivity : Activity
 	{
 		private BucketAdapter Adapter;
@@ -29,11 +30,12 @@ namespace S3StorageSample.Droid
 
 		protected override void OnCreate (Bundle bundle)
 		{
+
 			BucketName = Intent.GetStringExtra ("bucketName");
 
 			base.OnCreate (bundle);
 
-			SetContentView (Resource.Layout.Buckets);
+			SetContentView (Resource.Layout.Bucket);
 			ListView listView = (ListView)FindViewById (Resource.Id.ListView_Bucket);
 			listView.Adapter = Adapter = new BucketAdapter (this);
 
@@ -48,7 +50,14 @@ namespace S3StorageSample.Droid
 			};
 
 			Initialize ();
+		
+		}
 
+
+		protected override void OnResume ()
+		{
+			base.OnResume ();
+			int i = 0;
 		}
 
 		public override bool OnCreateOptionsMenu (IMenu menu)
@@ -77,13 +86,21 @@ namespace S3StorageSample.Droid
 
 
 			try {
-				string fileName = new Random ().Next (2).ToString () + ".jpg";
-				byte[] buffer = System.IO.File.ReadAllBytes (fileName);
 
-				string saveAs = DateTime.UtcNow.Ticks.ToString () + "-" + fileName;
-				await ServiceContainer.Resolve<S3ClientCore> ().PutObject (Title, saveAs, buffer);
+				string fileName = new Random ().Next (2) + ".jpg";
+				var bitmap = BitmapFactory.DecodeStream (Assets.Open (fileName));
 
-				Adapter.Objects.Insert (0, new Contents (){ Key = fileName });
+
+				byte[] bitmapData;
+				using (var stream = new MemoryStream ()) {
+					bitmap.Compress (Bitmap.CompressFormat.Png, 0, stream);
+					bitmapData = stream.ToArray ();
+				}
+				string saveAs = DateTime.UtcNow.Ticks + "-" + fileName;
+
+				await ServiceContainer.Resolve<S3ClientCore> ().PutObject (BucketName, saveAs, bitmapData);
+
+				Adapter.Objects.Insert (0, new Contents (){ Key = saveAs });
 				Adapter.NotifyDataSetChanged ();
 			} catch (AWSErrorException e) {
 				ShowAlert (e);
@@ -94,8 +111,13 @@ namespace S3StorageSample.Droid
 		{
 			try {
 				ListBucketResult result = await ServiceContainer.Resolve<S3ClientCore> ().GetBucket (BucketName);
-				Adapter.Objects = new List<Contents> (result.Contents);
-				Adapter.NotifyDataSetChanged ();
+				if (result.Contents != null) {
+					Adapter.Objects = new List<Contents> (result.Contents);
+					Adapter.NotifyDataSetChanged ();
+				} else {
+					Adapter.Objects = new List<Contents> ();
+					Adapter.NotifyDataSetChanged ();
+				}
 			} catch (AWSErrorException e) {
 				ShowAlert (e);
 			}
@@ -123,6 +145,8 @@ namespace S3StorageSample.Droid
 
 		public class BucketAdapter : BaseAdapter<string>
 		{
+			private bool btnLock = false;
+
 			private List<Contents> objects = new List<Contents> ();
 
 			public List<Contents> Objects {
@@ -154,19 +178,58 @@ namespace S3StorageSample.Droid
 				get { return objects.Count; }
 			}
 
+
+
 			public override View GetView (int position, View convertView, ViewGroup parent)
 			{
 				View view = convertView; // re-use an existing view, if one is supplied
 				if (view == null) // otherwise create a new one
-				view = Context.LayoutInflater.Inflate (Android.Resource.Layout.SimpleListItem1, null);
+					view = Context.LayoutInflater.Inflate (Android.Resource.Layout.SimpleListItem1, null);
 				// set view properties to reflect data for the given row
 				view.FindViewById<TextView> (Android.Resource.Id.Text1).Text = objects [position].Key;
 				view.Click += (object sender, EventArgs e) => {
-					Intent intent = new Intent (Context, typeof(Detail));
+					Intent intent = new Intent (Context, typeof(DetailActivity));
 					intent.PutExtra ("bucketName", Context.BucketName);
 					intent.PutExtra ("objectName", objects [position].Key);
 					Context.StartActivity (intent);
 				};
+
+				view.LongClick += (sender, e) => {
+
+					if (!btnLock) {
+						btnLock = true;
+					
+
+						AlertDialog.Builder alert = new AlertDialog.Builder (Context);
+
+						alert.SetTitle ("Delete");
+						alert.SetMessage ("Do you want delete this object?");
+						alert.SetPositiveButton ("YES", async (dialog, args) => {
+
+							try {
+								await ServiceContainer.Resolve<S3ClientCore> ().DeleteObject (Context.BucketName, objects [position].Key);
+								objects.RemoveAt (position);
+								NotifyDataSetChanged ();
+								NotifyDataSetInvalidated ();
+							} catch (AWSErrorException exception) {
+								AlertDialog.Builder alert2 = new AlertDialog.Builder (Context);
+								alert.SetTitle (exception.ToString ());
+								alert.Show ();
+							} finally {
+								btnLock = false;
+							}
+
+						});
+						alert.SetNegativeButton ("NO", (dialog, args) => {
+							btnLock = false;
+						});
+						alert.Show ();
+
+					}
+
+				};
+					
+
 				// return the view, populated with data, for display
 				return view;
 			}

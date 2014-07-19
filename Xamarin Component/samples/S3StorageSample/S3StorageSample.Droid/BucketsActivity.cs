@@ -70,7 +70,7 @@ namespace S3StorageSample.Droid
 		{
 
 
-			string bucketName = Settings.Secure.AndroidId + "-" + DateTime.Now.Ticks.ToString ().ToLower ();
+			string bucketName = (Settings.Secure.AndroidId + "-" + DateTime.Now.Ticks.ToString ()).ToLower ().Replace ("_", "-");
 
 			try {
 				await ServiceContainer.Resolve<S3ClientCore> ().PutBucket (bucketName, new CreateBucketConfiguration (LocationConstraint.EUWest_1));
@@ -85,8 +85,13 @@ namespace S3StorageSample.Droid
 		{
 			try {
 				ListAllMyBucketsResult result = await ServiceContainer.Resolve<S3ClientCore> ().GetBuckets ();
-				Adapter.Objects = new List<Bucket> (result.Buckets);
-				Adapter.NotifyDataSetChanged ();
+				if (result.Buckets != null) {
+					Adapter.Objects = new List<Bucket> (result.Buckets);
+					Adapter.NotifyDataSetChanged ();
+				} else {
+					Adapter.Objects = new List<Bucket> ();
+					Adapter.NotifyDataSetChanged ();
+				}
 			} catch (AWSErrorException e) {
 				ShowAlert (e);
 			}
@@ -113,13 +118,15 @@ namespace S3StorageSample.Droid
 
 		public class BucketsAdapter : BaseAdapter<string>
 		{
-			private Activity context;
+			private Activity Context;
+
+			private bool btnLock = false;
 
 			private List<Bucket> objects = new List<Bucket> ();
 
 			public BucketsAdapter (Activity context) : base ()
 			{
-				this.context = context;
+				this.Context = context;
 			}
 
 			public List<Bucket> Objects {
@@ -148,14 +155,51 @@ namespace S3StorageSample.Droid
 			{
 				View view = convertView; // re-use an existing view, if one is supplied
 				if (view == null) // otherwise create a new one
-				view = context.LayoutInflater.Inflate (Android.Resource.Layout.SimpleListItem1, null);
+				view = Context.LayoutInflater.Inflate (Android.Resource.Layout.SimpleListItem1, null);
 				// set view properties to reflect data for the given row
 				view.FindViewById<TextView> (Android.Resource.Id.Text1).Text = objects [position].Name;
 				view.Click += (object sender, EventArgs e) => {
-					Intent intent = new Intent (context, typeof(BucketActivity));
+					Intent intent = new Intent (Context, typeof(BucketActivity));
 					intent.PutExtra ("bucketName", objects [position].Name);
-					context.StartActivity (intent);
+					Context.StartActivity (intent);
 				};
+
+				view.LongClick += (sender, e) => {
+
+					if (!btnLock) {
+						btnLock = true;
+
+
+						AlertDialog.Builder alert = new AlertDialog.Builder (Context);
+
+						alert.SetTitle ("Delete");
+						alert.SetMessage ("Do you want delete this bucket?");
+						alert.SetPositiveButton ("YES", async (dialog, args) => {
+
+							try {
+								await ServiceContainer.Resolve<S3ClientCore> ().DeleteBucket (objects [position].Name);
+								objects.RemoveAt (position);
+								NotifyDataSetChanged ();
+								NotifyDataSetInvalidated ();
+							} catch (AWSErrorException exception) {
+								AlertDialog.Builder alert2 = new AlertDialog.Builder (Context);
+								alert.SetTitle (exception.ToString ());
+								alert.Show ();
+							} finally {
+								btnLock = false;
+							}
+
+						});
+						alert.SetNegativeButton ("NO", (dialog, args) => {
+							btnLock = false;
+						});
+						alert.Show ();
+
+					}
+
+				};
+
+
 				// return the view, populated with data, for display
 				return view;
 			}

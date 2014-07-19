@@ -1,26 +1,26 @@
-﻿
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-
+﻿using System;
 using Android.App;
-using Android.Content;
-using Android.OS;
 using Android.Runtime;
-using Android.Views;
-using Android.Widget;
+using S3Storage.Service;
+using S3Storage.S3;
+using S3Storage;
+using S3StorageSample.Core.Services;
 
 namespace S3StorageSample.Droid
 {
-	[Activity (Label = "S3Application")]			
-	public class S3Application : Activity
+	[Application]
+	public class S3Application :Application
 	{
-		protected override void OnCreate (Bundle bundle)
+		public S3Application (IntPtr javaReference, JniHandleOwnership transfer) : base (javaReference, transfer)
 		{
-			base.OnCreate (bundle);
+		}
 
-			// Create your application here
+		public override void OnCreate ()
+		{
+			base.OnCreate ();
+
+			ServiceContainer.Register<ISHA256Service> (() => new SHA256Service ());
+			ServiceContainer.Register<S3ClientCore> (() => new S3ClientCore ("KEY", "SECRET", Region.EUWest_1));
 		}
 	}
 }

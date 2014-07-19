@@ -1,6 +1,7 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="1" android:versionName="1.0" package="S3StorageSample.Droid">
 	<uses-sdk />
-	<application android:label="S3StorageSample.Droid">
+	<application android:label="S3StorageSample" android:icon="@drawable/icon">
 	</application>
+	<uses-permission android:name="android.permission.INTERNET" />
 </manifest>

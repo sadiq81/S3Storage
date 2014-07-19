@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2012
-Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "S3StorageSample.Core", "S3StorageSample.Core.shproj", "{F60FDEFA-E8A1-425B-BC99-CE10E1660139}"
+Project("{D954291E-2A0B-460D-934E-DC6B0785DB48}") = "S3StorageSample.Core", "S3StorageSample.Core\S3StorageSample.Core.shproj", "{F60FDEFA-E8A1-425B-BC99-CE10E1660139}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "S3StorageSample.Droid", "S3StorageSample.Droid\S3StorageSample.Droid.csproj", "{8C74D9AA-BC9D-4FAC-862D-B3BC3D5EF271}"
 EndProject
