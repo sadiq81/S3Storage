@@ -88,9 +88,6 @@
     <Reference Include="System.Xml" />
     <Reference Include="System.Core" />
     <Reference Include="monotouch" />
-    <Reference Include="Xamarin.Mobile">
-      <HintPath>..\Components\xamarin.mobile-0.7.1\lib\ios\Xamarin.Mobile.dll</HintPath>
-    </Reference>
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
@@ -121,7 +118,7 @@
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
   </ItemGroup>
-  <Import Project="..\S3StorageSample.Core.projitems" Label="Shared" Condition="Exists('..\S3StorageSample.Core.projitems')" />
+  <Import Project="..\..\..\..\S3StorageSample.Core\S3StorageSample.Core.projitems" Label="Shared" Condition="Exists('..\..\..\..\S3StorageSample.Core\S3StorageSample.Core.projitems')" />
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\S3Storage.csproj">

@@ -11,7 +11,6 @@ using System.Threading.Tasks;
 using S3Storage.S3;
 using S3Storage.Response;
 using System.Collections.Generic;
-using Xamarin.Media;
 
 namespace S3StorageSample.iOS
 {
@@ -96,20 +95,18 @@ namespace S3StorageSample.iOS
 
 			private async void Initialize ()
 			{
-				try {
-
-				} catch (AWSErrorException e) {
-					UIAlertView alert = new UIAlertView ("Error", e.ToString (), null, "OK", null);
-					alert.Show ();
-				}
+				await RefreshData ();
 			}
 
 			public async Task RefreshData ()
 			{
 				try {
 					ListBucketResult result = await ServiceContainer.Resolve<S3ClientCore> ().GetBucket (Controller.Title);
-
-					this.Objects = new List<Contents> (result.Contents);
+					if (result.Contents != null) {
+						this.Objects = new List<Contents> (result.Contents);
+					} else {
+						this.Objects = new List<Contents> ();
+					}
 				} catch (AWSErrorException e) {
 					UIAlertView alert = new UIAlertView ("Error", e.ToString (), null, "OK", null);
 					alert.Show ();

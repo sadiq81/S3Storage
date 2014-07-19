@@ -87,18 +87,18 @@ namespace S3StorageSample.iOS
 
 			private async void Initialize ()
 			{
-				try {
-				} catch (AWSErrorException e) {
-					UIAlertView alert = new UIAlertView ("Error", e.ToString (), null, "OK", null);
-					alert.Show ();
-				}
+				await RefreshData ();
 			}
 
 			public async Task RefreshData ()
 			{
 				try {
 					ListAllMyBucketsResult result = await ServiceContainer.Resolve<S3ClientCore> ().GetBuckets ();
-					this.Objects = new List<Bucket> (result.Buckets);
+					if (result.Buckets != null) {
+						this.Objects = new List<Bucket> (result.Buckets);
+					} else {
+						this.Objects = new List<Bucket> ();
+					}
 				} catch (AWSErrorException e) {
 					UIAlertView alert = new UIAlertView ("Error", e.ToString (), null, "OK", null);
 					alert.Show ();
