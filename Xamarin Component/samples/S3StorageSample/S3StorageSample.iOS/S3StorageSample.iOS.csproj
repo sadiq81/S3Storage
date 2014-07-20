@@ -4,7 +4,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">iPhoneSimulator</Platform>
     <ProjectTypeGuids>{6BC8ED88-2882-458C-8E55-DFD12B67127B};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
-    <ProjectGuid>{5683704E-4608-414C-AB8C-1A57747384BD}</ProjectGuid>
+    <ProjectGuid>{CB01CD24-E895-47BE-839B-1848AB57667F}</ProjectGuid>
     <OutputType>Exe</OutputType>
     <RootNamespace>S3StorageSample.iOS</RootNamespace>
     <IPhoneResourcePrefix>Resources</IPhoneResourcePrefix>
@@ -83,16 +83,6 @@
     <CodesignProvision>Automatic:AppStore</CodesignProvision>
     <CodesignKey>iPhone Distribution</CodesignKey>
   </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Debug</OutputPath>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
-  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <Optimize>false</Optimize>
-    <OutputPath>bin\Release</OutputPath>
-    <WarningLevel>4</WarningLevel>
-  </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Xml" />
@@ -104,33 +94,27 @@
   </ItemGroup>
   <ItemGroup>
     <BundleResource Include="Resources\Default-568h%402x.png" />
+    <BundleResource Include="Info.plist" />
     <BundleResource Include="Resources\0.jpg" />
     <BundleResource Include="Resources\1.jpg" />
     <BundleResource Include="Resources\2.jpg" />
   </ItemGroup>
+  <Import Project="..\S3StorageSample.Core\S3StorageSample.Core.projitems" Label="Shared" Condition="Exists('..\S3StorageSample.Core\S3StorageSample.Core.projitems')" />
+  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <ItemGroup>
-    <None Include="Info.plist" />
-    <None Include="Entitlements.plist" />
+    <Compile Include="AppDelegate.cs" />
+    <Compile Include="BucketViewController.cs" />
+    <Compile Include="BucketViewController.designer.cs" />
+    <Compile Include="BucketsViewController.cs" />
+    <Compile Include="BucketsViewController.designer.cs" />
+    <Compile Include="DetailViewController.cs" />
+    <Compile Include="DetailViewController.designer.cs" />
+    <Compile Include="Main.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Main.cs" />
-    <Compile Include="AppDelegate.cs" />
-    <Compile Include="DetailViewController.cs" />
-    <Compile Include="DetailViewController.designer.cs">
-      <DependentUpon>DetailViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BucketsViewController.cs" />
-    <Compile Include="BucketsViewController.designer.cs">
-      <DependentUpon>BucketsViewController.cs</DependentUpon>
-    </Compile>
-    <Compile Include="BucketViewController.cs" />
-    <Compile Include="BucketViewController.designer.cs">
-      <DependentUpon>BucketViewController.cs</DependentUpon>
-    </Compile>
+    <None Include="Entitlements.plist" />
   </ItemGroup>
   <ItemGroup>
     <InterfaceDefinition Include="MainStoryboard.storyboard" />
   </ItemGroup>
-  <Import Project="..\S3StorageSample.Core\S3StorageSample.Core.projitems" Label="Shared" Condition="Exists('..\S3StorageSample.Core\S3StorageSample.Core.projitems')" />
-  <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
 </Project>

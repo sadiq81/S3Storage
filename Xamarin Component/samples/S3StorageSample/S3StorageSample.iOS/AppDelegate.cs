@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 using MonoTouch.Foundation;
 using MonoTouch.UIKit;
 

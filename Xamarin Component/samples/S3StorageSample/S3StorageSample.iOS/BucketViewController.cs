@@ -27,10 +27,10 @@ namespace S3StorageSample.iOS
 
 			try {
 			
-				string fileName = new Random ().Next (2).ToString () + ".jpg";
+				string fileName = new Random ().Next (2) + ".jpg";
 				byte[] buffer = File.ReadAllBytes (fileName);
 
-				string saveAs = DateTime.UtcNow.Ticks.ToString () + "-" + fileName;
+				string saveAs = DateTime.UtcNow.Ticks + "-" + fileName;
 				await ServiceContainer.Resolve<S3ClientCore> ().PutObject (Title, saveAs, buffer);
 
 				dataSource.Objects.Insert (0, new Contents () {
@@ -57,7 +57,7 @@ namespace S3StorageSample.iOS
 			var addButton = new UIBarButtonItem (UIBarButtonSystemItem.Add, AddNewItem);
 			NavigationItem.RightBarButtonItem = addButton;
 
-			TableView.Source = dataSource = new DataSource (this);
+			TableView.Source = dataSource = new DataSource (this, TableView);
 
 			RefreshControl = new UIRefreshControl ();
 			RefreshControl.ValueChanged += async (object sender, EventArgs e) => {
@@ -86,16 +86,19 @@ namespace S3StorageSample.iOS
 			List<Contents> objects = new List<Contents> ();
 
 			readonly BucketViewController Controller;
+			readonly UITableView UiTableView;
 
-			public DataSource (BucketViewController controller)
+			public DataSource (BucketViewController controller, UITableView uiTableView)
 			{
 				this.Controller = controller;
+				this.UiTableView = uiTableView;
 				Initialize ();
 			}
 
 			private async void Initialize ()
 			{
 				await RefreshData ();
+				UiTableView.ReloadData ();
 			}
 
 			public async Task RefreshData ()

@@ -25,7 +25,7 @@ namespace S3StorageSample.iOS
 
 		async void AddNewItem (object sender, EventArgs args)
 		{
-			string bucketName = (UIDevice.CurrentDevice.IdentifierForVendor.AsString () + "-" + DateTime.Now.Ticks.ToString ()).ToLower ();
+			string bucketName = (UIDevice.CurrentDevice.IdentifierForVendor.AsString () + "-" + DateTime.Now.Ticks).ToLower ();
 
 			try {
 				await ServiceContainer.Resolve<S3ClientCore> ().PutBucket (bucketName, new CreateBucketConfiguration (LocationConstraint.EUWest_1));
@@ -49,7 +49,7 @@ namespace S3StorageSample.iOS
 			var addButton = new UIBarButtonItem (UIBarButtonSystemItem.Add, AddNewItem);
 			NavigationItem.RightBarButtonItem = addButton;
 
-			TableView.Source = dataSource = new DataSource (this);
+			TableView.Source = dataSource = new DataSource (this, TableView);
 
 			RefreshControl = new UIRefreshControl ();
 			RefreshControl.ValueChanged += async (object sender, EventArgs e) => {
@@ -77,17 +77,20 @@ namespace S3StorageSample.iOS
 			static readonly NSString CellIdentifier = new NSString ("Cell");
 			List<Bucket> objects = new List<Bucket> ();
 
-			readonly BucketsViewController controller;
+			readonly BucketsViewController Controller;
+			readonly UITableView TableView;
 
-			public DataSource (BucketsViewController controller)
+			public DataSource (BucketsViewController controller, UITableView uiTableView)
 			{
-				this.controller = controller;
+				this.Controller = controller;
+				this.TableView = uiTableView;
 				Initialize ();
 			}
 
 			private async void Initialize ()
 			{
 				await RefreshData ();
+				TableView.ReloadData ();
 			}
 
 			public async Task RefreshData ()
@@ -144,7 +147,7 @@ namespace S3StorageSample.iOS
 					try {
 						await ServiceContainer.Resolve<S3ClientCore> ().DeleteBucket (objects [indexPath.Row].Name);
 						objects.RemoveAt (indexPath.Row);
-						controller.TableView.DeleteRows (new NSIndexPath[] { indexPath }, UITableViewRowAnimation.Fade);
+						Controller.TableView.DeleteRows (new NSIndexPath[] { indexPath }, UITableViewRowAnimation.Fade);
 					} catch (AWSErrorException e) {
 						UIAlertView alert = new UIAlertView ("Error", e.ToString (), null, "OK", null);
 						alert.Show ();

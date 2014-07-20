@@ -29,8 +29,8 @@ task :default => "xamarin-component/xamarin-component.exe" do
 		--library="ios":"bin/S3Storage.dll" \
 		--library="winphone-7.0	":"bin/S3Storage.dll" \
 		--library="winphone-7.1	":"bin/S3Storage.dll" \
-		--sample="iOS Sample. Demonstrates S3 storage on iOS.":"samples/SimpleDBSample/SimpleDBSample.sln" \
-		--sample="Android Sample. Demonstrates S3 storage on Android.":"samples/SimpleDBSample/SimpleDBSample.sln" \
+		--sample="iOS Sample. Demonstrates S3 storage on iOS.":"samples/S3StorageSample/S3StorageSample.sln" \
+		--sample="Android Sample. Demonstrates S3 storage on Android.":"samples/S3StorageSample/S3StorageSample.sln" \
 
 		END
 	puts "* Creating #{COMPONENT}..."
