@@ -1,10 +1,12 @@
 ﻿<Properties>
   <MonoDevelop.Ide.Workspace ActiveConfiguration="Debug" PreferredExecutionTarget="MonoDevelop.IPhone.IPhoneSimulatorTarget.IPhoneRetina.7.1" />
-  <MonoDevelop.Ide.Workbench ActiveDocument="S3StorageSample.iOS/BucketViewController.cs">
+  <MonoDevelop.Ide.Workbench ActiveDocument="S3StorageSample.Droid/S3Application.cs">
     <Files>
       <File FileName="S3StorageSample.iOS/BucketViewController.cs" Line="60" Column="67" />
       <File FileName="S3StorageSample.iOS/DetailViewController.cs" Line="1" Column="1" />
-      <File FileName="S3StorageSample.iOS/BucketsViewController.cs" Line="90" Column="26" />
+      <File FileName="S3StorageSample.iOS/BucketsViewController.cs" Line="1" Column="1" />
+      <File FileName="S3StorageSample.iOS/Main.cs" Line="16" Column="83" />
+      <File FileName="S3StorageSample.Droid/S3Application.cs" Line="21" Column="4" />
     </Files>
   </MonoDevelop.Ide.Workbench>
   <MonoDevelop.Ide.DebuggingService.Breakpoints>
