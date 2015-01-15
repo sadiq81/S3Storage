@@ -8,8 +8,9 @@
     <OutputType>Library</OutputType>
     <RootNamespace>S3Storage</RootNamespace>
     <AssemblyName>S3Storage</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>Profile7</TargetFrameworkProfile>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <ReleaseVersion>1.0.0</ReleaseVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -30,9 +31,14 @@
     <ConsolePause>false</ConsolePause>
     <CustomCommands>
       <CustomCommands>
-        <Command type="AfterBuild" command="cp &quot;bin/Release/S3Storage.dll&quot; &quot;Xamarin Component/bin&quot;" workingdir="${SolutionDir}" />
+        <Command type="AfterBuild" command="cp &quot;/Users/Privat/S3Storage/bin/Release/S3Storage.dll&quot; &quot;/Users/Privat/S3Storage/Xamarin Component/bin&quot;" workingdir="" />
       </CustomCommands>
     </CustomCommands>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Ubertester|iPhone' ">
+    <Optimize>false</Optimize>
+    <OutputPath>bin\iPhone\Ubertester</OutputPath>
+    <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -40,8 +46,6 @@
     <Compile Include="S3\S3ClientCore.cs" />
     <Compile Include="S3\Request\GetBucketsRequest.cs" />
     <Compile Include="S3\Request\BaseRequest.cs" />
-    <Compile Include="Service\ISHA256Service.cs" />
-    <Compile Include="Service\ServiceContainer.cs" />
     <Compile Include="S3\Region.cs" />
     <Compile Include="S3\Signer\BaseSigner.cs" />
     <Compile Include="S3\Response\ListAllMyBucketsResult.cs" />
@@ -75,6 +79,7 @@
     <Compile Include="S3\Marshalling\UnMarshalling\ListBucketResultUnMarshaller.cs" />
     <Compile Include="S3\Marshalling\UnMarshalling\PutBucketUnMarshaller.cs" />
     <Compile Include="S3\Marshalling\UnMarshalling\PutObjectUnMarshaller.cs" />
+    <Compile Include="Service\SHA256ServicePCL.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\Portable\$(TargetFrameworkVersion)\Microsoft.Portable.CSharp.targets" />
   <ItemGroup>
@@ -88,5 +93,19 @@
     <Folder Include="S3\AWSException\" />
     <Folder Include="S3\Marshalling\UnMarshalling\" />
     <Folder Include="S3\Marshalling\Marshalling\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Reference Include="Validation">
+      <HintPath>..\HalalGuide\packages\Validation.2.0.4.14103\lib\portable-windows8+net40+sl5+wp8+wpa81+wp81+MonoAndroid+MonoTouch\Validation.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLCrypto.Abstractions">
+      <HintPath>..\HalalGuide\packages\PCLCrypto.0.5.1.14165\lib\portable-net40+sl50+win+wpa81+wp80\PCLCrypto.Abstractions.dll</HintPath>
+    </Reference>
+    <Reference Include="PCLCrypto">
+      <HintPath>..\HalalGuide\packages\PCLCrypto.0.5.1.14165\lib\portable-net40+sl50+win+wpa81+wp80\PCLCrypto.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="packages.config" />
   </ItemGroup>
 </Project>

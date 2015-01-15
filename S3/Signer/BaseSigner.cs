@@ -19,7 +19,7 @@ namespace S3Storage.Signer
 		private const string SERVICE = "s3";
 		private const string REQUEST = "aws4_request";
 
-		private ISHA256Service HashService = ServiceContainer.Resolve<ISHA256Service> ();
+		private SHA256ServicePCL HashService = new SHA256ServicePCL();
 
 		public BaseSigner ()
 		{

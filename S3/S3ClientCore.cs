@@ -23,8 +23,6 @@ namespace S3Storage.S3
 
 		public Region Region { get; set; }
 
-		private HttpClient Client;
-
 		BaseSigner BaseSigner = new BaseSigner ();
 
 		public S3ClientCore (string aWSAccessKeyId, string aWSSecretKey, Region region)
@@ -40,7 +38,7 @@ namespace S3Storage.S3
 
 			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, null);
 
-			using (Client = new HttpClient ()) {
+			using (HttpClient Client = new HttpClient ()) {
 				ConfigureClient (Client, request);
 				HttpResponseMessage response = await Client.GetAsync (request.Uri);
 
@@ -58,7 +56,7 @@ namespace S3Storage.S3
 
 			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, null);
 
-			using (Client = new HttpClient ()) {
+			using (HttpClient Client = new HttpClient ()) {
 				ConfigureClient (Client, request);
 
 				HttpResponseMessage response = await Client.GetAsync (request.Uri);
@@ -77,7 +75,7 @@ namespace S3Storage.S3
 
 			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, null);
 
-			using (Client = new HttpClient ()) {
+			using (HttpClient Client = new HttpClient ()) {
 				ConfigureClient (Client, request);
 				HttpResponseMessage response = await Client.GetAsync (request.Uri);
 
@@ -97,7 +95,7 @@ namespace S3Storage.S3
 
 			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, null);
 
-			using (Client = new HttpClient ()) {
+			using (HttpClient Client = new HttpClient ()) {
 				ConfigureClient (Client, request);
 				HttpResponseMessage response = await Client.DeleteAsync (request.Uri);
 
@@ -115,7 +113,7 @@ namespace S3Storage.S3
 
 			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, null);
 
-			using (Client = new HttpClient ()) {
+			using (HttpClient Client = new HttpClient ()) {
 				ConfigureClient (Client, request);
 				HttpResponseMessage response = await Client.DeleteAsync (request.Uri);
 
@@ -134,10 +132,9 @@ namespace S3Storage.S3
 
 			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, buffer);
 
-			using (Client = new HttpClient ()) {
+			using (HttpClient Client = new HttpClient ()) {
 
 				ConfigureClient (Client, request);
-
 				HttpResponseMessage response = await Client.PutAsync (request.Uri, new ByteArrayContent (buffer));
 
 				PutObjectUnMarshaller unmarshaller = new PutObjectUnMarshaller ();
@@ -157,7 +154,7 @@ namespace S3Storage.S3
 
 			BaseSigner.CreateAuthorization (request, AWSAccessKeyId, AWSSecretKey, buffer);
 
-			using (Client = new HttpClient ()) {
+			using (HttpClient Client = new HttpClient ()) {
 
 				ConfigureClient (Client, request);
 				HttpResponseMessage response = await Client.PutAsync (request.Uri, new ByteArrayContent (buffer));
